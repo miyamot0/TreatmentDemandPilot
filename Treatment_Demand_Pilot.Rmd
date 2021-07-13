@@ -1,0 +1,143 @@
+---
+title             : "Applications of Operant Demand to Treatment Selection I: Characterizing Demand for Evidence-based Practices"
+shorttitle        : "TREATMENT DEMAND"
+
+author: 
+  - name          : "Shawn P. Gilroy"
+    affiliation   : "1"
+    corresponding : yes
+    address       : "226 Audubon Hall Baton Rouge, Louisiana 70806"
+    email         : "sgilroy1@lsu.edu"
+    role:
+      - Conceptualization
+      - Writing - Original Draft Preparation
+      - Writing - Review & Editing
+  - name          : "Jodie A. Waits"
+    affiliation   : "1"
+    role:
+      - Writing - Review & Editing
+  - name          : "Brent A. Kaplan"
+    affiliation   : "2"
+    role:
+      - Writing - Review & Editing
+
+affiliation:
+  - id            : "1"
+    institution   : "Louisiana State University"
+  - id            : "2"
+    institution   : "Department of Family and Community Medicine, University of Kentucky College of Medicine"
+
+authornote: |
+ Shawn Patrick Gilroy is an Assistant Professor of School Psychology at Louisiana State University. Jodie Waits is a doctoral student in the School Psychology at Louisiana State University and Brent Kaplan is a Assistant Professor in the Department of Family and Community Medicine at the University of Kentucky College of Medicine. Correspondence should be directed to sgilroy1@lsu.edu. The source code necessary to recreate this work is publicly hosted in a repository at: https://github.com/miyamot0/TreatmentDemandPilot 
+
+abstract: |
+ Various treatment approaches have been determined efficacious for improving child behavior outcomes. Despite a variety of evidence-based options, consumers often disregard empirically supported treatments to pursue alternatives that lack empirical support, e.g. fad therapies. The choice to pursue therapies lacking empirical support has been considered as a ‘gamble’ on therapeutic outcomes and this form of risky choice has historically been explained through various cognitive heuristics and biases. This report translates quantitative analyses from operant demand to characterize how caregivers of children with behavioral issues consume treatment services. The operant demand approach is presented, its utility for characterizing patterns of treatment consumption is discussed, and cross-price analyses of demand are applied to evaluate how various factors influence treatment-related decisions. Results indicated that caregivers endorsing interest in receiving behavioral parent training regularly pursued pseudoscientific alternatives as a substitute for an established therapy, despite explicit language stating a lack of evidence. These findings question the presumption of rationality in treatment choice as well as the degree to which scientific evidence influences the consumption of specific therapies. This report ends with a discussion of Consumer Behavior Analysis and how quantitative analyses of behavior can be used to better understand factors that help or hinder the dissemination of evidence-based practices.
+  
+keywords          : "behavioral economics, demand, substitution, evidence-based practices, pseudoscience, consumer behavior analysis"
+wordcount         : "X"
+
+bibliography      : ["r-references.bib"]
+
+floatsintext      : yes
+figurelist        : yes
+tablelist         : yes
+footnotelist      : no
+linenumbers       : yes
+mask              : no
+draft             : yes
+
+documentclass     : "apa7"
+csl               : "apa.csl"
+classoption       : "man"
+output            : papaja::apa6_pdf
+---
+
+```{r setup, include = FALSE}
+library("papaja")
+r_refs("r-references.bib")
+```
+
+```{r analysis-preferences}
+# Seed for random number generation
+set.seed(42)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+```
+
+# Introduction
+
+The APA Task Force on Evidence-Based Practice (2006) has defined Evidence-based Practices (EBPs) as "...the integration of the best available research with clinical expertise in the context of patient
+characteristics, culture, and preferences (p. 273)." Broadly, a focus on EBPs reflects a commitment to align clinical services with the approaches and procedures that are most supported by credible and scientific evidence (Newsom & Hovanitz, 2015). In the context of developmental and child behavior issues, various practices have been determined to be empirically supported for improving specific outcomes (Chambless et al., 1998; National Autism Center, 2015; Woody et al., 1996). Although highlighted here in the context of child behavior therapies, it warrants noting that commitments to EBPs are typically observed in most clinical fields, including pediatrics (American Academy of Pediatrics, 2017), speech and language pathology (American Speech-Language-Hearing Association, 2005), and healthcare more broadly (Evidence-Based Medicine Working Group, 1992).
+
+## "Alternatives"to Evidence-based Practices
+
+Not all practices marketed to families experiencing undesired child behavior are supported by strong evidence (i.e., complementary and alternative treatment options). Practices marketed to caregivers may lack scientific evidence of efficacy, or worse, have a documented risk of harm (Food and Drug Administration, 2019). Such dangerous and questionable services exist for the treatment of various developmental and behavioral disorders; however, these tend to be marketed most heavily towards families of children diagnosed with Autism Spectrum Disorder (ASD; Travers et al., 2016). Indeed, the range of 'fad' and pseudoscientific services marketed to the ASD population and their families has been considerable and has included practices such as Auditory Integration Training (Dawson & Watling, 2000), Sensory Integration Therapy (Lang et al., 2012), various mineral supplements and dietary restrictions (Trudeau et al., 2019), chelation therapy (Davis et al., 2013), hyperbaric oxygen therapy (Jepson et al., 2011), and Facilitated Communication (Mostert, 2001), along with its derivative, the Rapid Prompting Method (Hemsley, 2016).
+
+The proliferation of practices lacking strong evidence is not a recent development and these alternatives to EBPs have previously been described in ways such as "scientifically questionable" treatments (Lilienfeld, 2005), as "fads" or "controversial" treatments (Foxx, 2008), or as forms of pseudoscientific thinking outright (Normand, 2008). Regardless of the specific term used to describe the consumption of these practices, each refers to an instance where services are pursued despite a limited degree (or total lack) of scientific evidence. These services are marketed heavily towards families of children with developmental and behavioral disorders and often result in families adopting such practices at levels that exceed (or completely replace) EBPs (Green et al., 2006). Put simply, these alternative approaches seem to be consumed as if they were equivalent or superior replacements to EBPs (i.e., substitutes). This alarming trend is also reflected in professional decision-making, with educators of children in early childhood (Stahmer et al., 2005) and the public school system (Hess et al., 2008) endorsing high levels of these practices as well.
+
+## (A)Rational Treatment Choice
+
+The enduring demand for alternative therapies that lack scientific support naturally evokes questions regarding the factors that drive treatment choices. The rational assumption holds that decision-makers would allocate greater resources to the prospects that have the greatest likelihood of returns. EBPs are more associated with positive and reliable returns and thus should be consumed most readily and at higher levels. Viewing caregivers and families as consumers and treatments as investments in future health and wellness, classical economic assumptions hold that agents should respond in ways that maximize their expected utility or benefit (Strotz, 1955). Per classical economic reasoning, the rational actor should disregard inferior prospects that are associated with suboptimal or questionable benefits (i.e., poor return on the resources invested). However, deviations from these 'rational' choices are quite common (Ainslie, 1974, 1992) and this perspective, Rational Choice Theory (RCT), fails to account for these phenomena. Herrnstein (1990) provided an exposition on the many issues associated with RCT and its limited utility in explaining real-world choices. They noted that RCT succeeds in describing how agents should make choices (i.e., to maximize utility) but fails to predict how agents actually make choices.
+
+Revisiting choice in the context of selecting behavior therapies, let us apply RCT to a hypothetical agent selecting from one of several treatment options for addressing their child's undesirable behavior. In this scenario, the choice is between an established EBP (e.g., Applied Behavior Analysis) and some alternative that clearly lacks scientific support (e.g., a fad or pseudoscientific behavior therapy). The rational agent would scrutinize the strength and degree of support for each form of therapy, and it stands to reason that they would choose the option associated with higher levels of efficacy (e.g., improvements in behavior). However, revisiting the concerns noted in Herrnstein (1990), RCT and assumptions of rationality provide a better description of how we should behave but serve as a poor framework for predicting how individuals actually make choices. As such, this calls into question to what extent differences in the degree of scientific evidence influence choices in child behavior therapies.
+
+## Factors Associated with "Alternative" Treatment Choices
+
+Researchers have explored how various factors contribute to the consumption of alternative (i.e., suboptimal) treatment approaches. Smith (2015) highlighted various strategies used to advertise the purported benefits of these approaches. Specifically, vendors of these approaches often use language that obscures the actual, likely effect(s) of the treatment. For example, the language included in these advertisements often includes vague and non-specific indicators of improvement that are difficult or impossible to quantitatively refute (e.g., increased 'focus', 'attending'). Additionally, these practices use language that emphasizes ease and immediacy, which are contrasted with EBPs that generally entail substantial time, effort, and resources to implement as designed. As such, the emphasis here is placed not on evidence (i.e., treatment efficacy) but instead on ease and immediacy---dimensions of reinforcement associated with greater efficacy and relative preference. It warrants noting that reinforcer efficacy and treatment efficacy are distinct concepts, with treatment efficacy representing distal effect(s) of treatment choices (e.g., child behavior improvement, outcomes) and reinforcer efficacy the proximal contingencies related to implementation (i.e., immediate consequences of implementation).
+
+Beyond the use of vague and misleading language, Foxall (2004) posited that consumption can be maintained by a convergence of multiple reinforcement contingencies. Consumer Behavior Analysis highlights the relevance of both Utilitarian (UR) and Informational Reinforcement (IR) contingencies (Foxall, 2001). Briefly, UR contingencies closely relate to the traditional definition of reinforcement whereby the putative effect on behavior is a direct result of consuming the reinforcer (e.g., edibles). Alternatively, IR contingencies represent those mediated by members of the verbal community as a function of consuming specific goods or services (e.g., signaling status). To better illustrate the two, let us consider the social contingencies (informational) that differ when consuming economy versus luxury clothing. Controlling for size and features, both economy and luxury clothing offer comparable utilitarian contingencies because, functionally, they both provide the same direct result (i.e., protection from elements, warmth). However, the two differ in informational contingencies because the consumption of premium and luxury goods is much more associated with greater levels of recognition and praise by peers (i.e., the verbal community). Revisiting child behavior treatment, various 'fads' (e.g., fidget spinners) demonstrate spurious effects on behavior (i.e., low utilitarian value) but members of the verbal community often recognize and praise such patterns of consumption (e.g., status signaling, both in-person and via social media). Viewed across these dimensions, "alternative" treatment practices may not require any degree of utilitarian value at all to reach and sustain high levels of consumption and adoption.
+
+## Elucidating "Alternative" Treatment Choice
+
+Experimental research with human and non-human animals has developed and applied procedures that elucidate deviations from maximized utility, i.e. "irrational" choices (Ainslie, 1974; Ainslie & Herrnstein, 1981). Experimental methods emerging from Operant Behavioral Economics have revealed that organisms regularly deviate from rational choices and tend to demonstrate a relative preference for immediate and lesser prospects over optimal ones, which are typically delayed and may be uncertain. This phenomenon, discounting, is one of several frequently evaluated in the Operant Behavioral Economic framework (Hursh, 2014; Reed et al., 2013).  Discounting has been explored in the context of various treatment situations, such as the choice of whether or not to pursue vaccination (Jit & Mibei, 2015), to continue or discontinue effective behavior therapy (Swift & Callahan, 2010), and whether to disregard optimal, but delayed behavior management strategies (Gilroy & Kaplan, 2020).
+
+Methods designed to elucidate patterns of suboptimal choice (i.e., discounting) typically present choices to participants in a dichotomous manner (e.g., Larger, Later vs. Smaller, Sooner). In these procedures, prospects vary across one or two dimensions (e.g., delays, magnitude) and this is highly effective for isolating the effects of certain aspects of choice. However, choices take place in complex environments and the dichotomous nature of this format fails to account for the various relations that exist between reinforcers (e.g., complementary, substitutional relations; Hursh, 1980). For instance, consider the treatment programming for a young child diagnosed with ASD. Caregivers of children diagnosed with this disorder typically report consuming a wide range of different behavior therapies, concurrently, each at varying degrees (Goin-Kochel et al., 2007; Green et al., 2006). In a survey of caregiver treatment choices, Green et al. (2006) found that caregivers of children with ASD, on average, endorsed the use of up to eight behavior therapies at a time. Given that treatment choices are rarely dichotomous (i.e., just Treatment A or just Treatment B) and because relations likely exist between treatments, the delay discounting framework fails to account for the possible interactions between treatment choices.
+
+Within the Operant Behavioral Economic framework, the demand methodology provides a means of analyzing patterns of consumption under various constraints, e.g. time, limited resources (Hursh, 1980; Kagel & Winkler, 1972; Rachlin et al., 1976). Rather than presenting choices as dichotomous (i.e., which treatments), consumption is indexed continuously across alternatives (i.e., how much of each treatment). In a hypothetical experiment related to treatment choice, a caregiver might endorse the consumption of Therapy A for five hours/week on average, Therapy B for four hours/week on average, and Therapy C for one hour a week on average---each consumed at a different price. The operant demand framework supports an analysis of how pricing, the availability of alternatives, and various other factors can influence the consumption of certain services (e.g., EBPs).
+
+Operant demand methods are well-suited to characterizing the consumption of behavior therapies for several reasons. First, researchers can evaluate the bliss point consumption of specific goods or services. That is, the consumer's overall level of demand, if the price was no object, can be modeled directly and used as an index of its hedonic value (Hursh & Silberberg, 2008). This is useful for comparing the demand for specific services across individuals and arrangements (e.g., EBPs, recommended treatments). Additionally, researchers can evaluate how strongly consumers would defend their levels of consumption of services when prices increase or when other treatment alternatives become available (Hursh, 2000). When we speak of defending consumption, we refer to the degree to which the consumer remains committed to their base level consumption of some treatment service before either ceasing that consumption (i.e., terminating therapy) or substituting that consumption with some alternative (e.g., fads, alternative therapies). For instance, a high level of demand would indicate that agents were willing to endure the burden of high costs to maintain their base levels of EBP consumption. Alternatively, a low level of defense would mean that agents quickly decrease/cease their consumption of EBPs when relatively minor increases in price/effort are encountered. This sensitivity to changes in price (i.e., rate of change in elasticity) is captured in models via a rate parameter in the demand curve (Gilroy et al., 2020; Hursh & Silberberg, 2008). For convenience, the original Exponential model of operant demand outlined in Hursh and Silberberg (2008) is listed in Equation 1 below:
+
+$$
+\begin{equation}
+
+log_{10}Q = log_{10}Q_0 + k (e^{-\alpha*Q_0*P}-1)
+
+\end{equation}
+$$
+
+In this exponential decay model, consumption (Q) is modeled as a function of price (P). As mentioned previously, Q0 represents the bliss point and the 𝛼 parameter reflects the sensitivity to price standardized to intercept levels. The range of consumption is constrained by the parameter k. In addition to characterizing the demand for behavior therapies, the operant demand approach can be used to quantify relationships that exist between different types of commodities and how they are consumed in tandem (Hursh et al., 2013). For example, decision-makers may consume certain treatments together (i.e., the treatments complement one another), consume certain treatments only as a replacement to others (i.e., one treatment substitutes the other), or the consumption of treatments may be completely independent of one another (Hursh & Roma, 2016). Such relationships are particularly useful for characterizing choices for behavior intervention because it is unclear how caregivers arrive at specific combinations of behavior treatment. For instance, this approach can be used to quantify how families consume and defend their consumption of EBPs in the presence and absence of "alternatives" that differ in levels of empirical evidence or treatment efficacy. Similarly, this approach can be used to determine whether "alternative" treatments are consumed as substitutes to EBPs, as complements, or if the consumption of the two appears to occur independently of each other.
+
+## Research Goals
+
+The purpose of this study was to evaluate factors associated with the consumption of child behavior therapies (e.g., EBPs, alternative treatments). Two Hypothetical Treatment Purchase Tasks (HTPTs) were developed to evaluate the consumption of various treatments when each varied in terms of their level of supporting evidence. Methods from operant demand were applied to quantify the patterns of consumption observed when EBPs were available alone (closed economy) and accompanied by an alternative therapy (open economy). The overall demand for EBPs was evaluated alone as well as with cross-price analyses to quantify the relationship between EBPs and alternative therapies (e.g., complements, substitutes).
+
+# Methods
+
+We report how we determined our sample size, all data exclusions (if any), all manipulations, and all measures in the study. <!-- 21-word solution (Simmons, Nelson & Simonsohn, 2012; retrieved from http://ssrn.com/abstract=2160588) -->
+
+## Participants
+
+## Material
+
+## Procedure
+
+## Data analysis
+
+We used `r cite_r("r-references.bib")` for all our analyses.
+
+# Results
+
+# Discussion
+
+\newpage
+
+# References
+
+```{=tex}
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+```
+::: {#refs custom-style="Bibliography"}
+:::
+
+\endgroup
