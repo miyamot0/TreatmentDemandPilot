@@ -78,9 +78,9 @@ r_refs("r-references.bib")
 
 tn <- trans_new("inhs",
                 function(x) log((x * 0.5) + ((0.5^2) * (x^2) + 1)^0.5)/log(10),
-                function(y) (1/10^(1*y))*((10^(2*y))-1),
-                domain=c(0, Inf),
-                breaks=c(0, 0.1, 1, 10, 100))
+                function(y) (1/10^(1*y))*((10^(2*y)) - 1),
+                domain = c(0, Inf),
+                breaks = c(0, 0.1, 1, 10, 100))
 
 ```
 
@@ -117,7 +117,7 @@ The proliferation of practices lacking strong evidence is not a recent developme
 
 ## (A)Rational Treatment Choice
 
-The enduring demand for alternative therapies that lack scientific support naturally evokes questions regarding the factors that drive treatment choices. The rational assumption holds that decision-makers would allocate greater resources to the prospects that have the greatest likelihood of returns. EBPs are more associated with positive and reliable returns and thus should be consumed most readily and at higher levels. Viewing caregivers and families as consumers and treatments as investments in future health and wellness, classical economic assumptions hold that agents should respond in ways that maximize their expected utility or benefit [@RN5120]. Per classical economic reasoning, the rational actor should disregard inferior prospects that are associated with suboptimal or questionable benefits (i.e., poor return on the resources invested). However, deviations from these 'rational' choices are quite common [@RN1036; @RN251] and this perspective, Rational Choice Theory (RCT), fails to account for these phenomena. @RN5132 provided an exposition on the many issues associated with RCT and its limited utility in explaining real-world choices. They noted that RCT succeeds in describing how agents should make choices (i.e., to maximize utility) but fails to predict how agents actually make choices.
+The enduring demand for alternative therapies that lack scientific support naturally evokes questions regarding the factors that drive treatment choices. The rational assumption holds that decision-makers would allocate greater resources to the prospects that have the greatest likelihood of returns. EBPs are more associated with positive and reliable returns and thus should be consumed most readily and at higher levels. Viewing caregivers and families as consumers and treatments as investments in future health and wellness, classical economic assumptions hold that agents should respond in ways that maximize their expected utility or benefit [@RN5120]. Per classical economic reasoning, the rational actor should disregard inferior prospects that are associated with sub optimal or questionable benefits (i.e., poor return on the resources invested). However, deviations from these 'rational' choices are quite common [@RN1036; @RN251] and this perspective, Rational Choice Theory (RCT), fails to account for these phenomena. @RN5132 provided an exposition on the many issues associated with RCT and its limited utility in explaining real-world choices. They noted that RCT succeeds in describing how agents should make choices (i.e., to maximize utility) but fails to predict how agents actually make choices.
 
 Revisiting choice in the context of selecting behavior therapies, let us apply RCT to a hypothetical agent selecting from one of several treatment options for addressing their child's undesirable behavior. In this scenario, the choice is between an established EBP (e.g., Applied Behavior Analysis) and some alternative that clearly lacks scientific support (e.g., a fad or pseudoscientific behavior therapy). The rational agent would scrutinize the strength and degree of support for each form of therapy, and it stands to reason that they would choose the option associated with higher levels of efficacy (e.g., improvements in behavior). However, revisiting the concerns noted in @RN5132, RCT and assumptions of rationality provide a better description of how we should behave but serve as a poor framework for predicting how individuals actually make choices. As such, this calls into question to what extent differences in the degree of scientific evidence influence choices in child behavior therapies.
 
@@ -133,7 +133,7 @@ Experimental research with human and non-human animals has developed and applied
 
 [^1]: We note here that Consumer Behavior Analysis is a highly related perspective that is also subsumed under the greater Operant Behavioral Economic framework.
 
-Methods designed to elucidate patterns of suboptimal choice (i.e., discounting) typically present choices to participants in a dichotomous manner (e.g., Larger, Later vs. Smaller, Sooner). In these procedures, prospects vary across one or two dimensions (e.g., delays, magnitude) and this is highly effective for isolating the effects of certain aspects of choice. However, choices take place in complex environments and the dichotomous nature of this format fails to account for the various relations that exist between reinforcers (e.g., complementary, substitutional relations) [@RN5170]. For instance, consider the treatment programming for a young child diagnosed with ASD. Caregivers of children diagnosed with this disorder typically report consuming a wide range of different behavior therapies, concurrently, each at varying degrees [@RN5114; @RN869]. In a survey of caregiver treatment choices, @RN5114 found that caregivers of children with ASD, on average, endorsed the use of up to eight behavior therapies at a time. Given that treatment choices are rarely dichotomous (i.e., just Treatment A or just Treatment B) and because relations likely exist between treatments, the delay discounting framework fails to account for the possible interactions between treatment choices.
+Methods designed to elucidate patterns of sub optimal choice (i.e., discounting) typically present choices to participants in a dichotomous manner (e.g., Larger, Later vs. Smaller, Sooner). In these procedures, prospects vary across one or two dimensions (e.g., delays, magnitude) and this is highly effective for isolating the effects of certain aspects of choice. However, choices take place in complex environments and the dichotomous nature of this format fails to account for the various relations that exist between reinforcers (e.g., complementary, substitutional relations) [@RN5170]. For instance, consider the treatment programming for a young child diagnosed with ASD. Caregivers of children diagnosed with this disorder typically report consuming a wide range of different behavior therapies, concurrently, each at varying degrees [@RN5114; @RN869]. In a survey of caregiver treatment choices, @RN5114 found that caregivers of children with ASD, on average, endorsed the use of up to eight behavior therapies at a time. Given that treatment choices are rarely dichotomous (i.e., just Treatment A or just Treatment B) and because relations likely exist between treatments, the delay discounting framework fails to account for the possible interactions between treatment choices.
 
 Within the Operant Behavioral Economic framework, the demand methodology provides a means of analyzing patterns of consumption under various constraints, e.g. time, limited resources [@RN241; @RN5130; @RN648]. Rather than presenting choices as dichotomous (i.e., which treatments), consumption is indexed continuously across alternatives (i.e., how much of each treatment). In a hypothetical experiment related to treatment choice, a caregiver might endorse the consumption of Therapy A for five hours/week on average, Therapy B for four hours/week on average, and Therapy C for one hour a week on average---each consumed at a different price. The operant demand framework supports an analysis of how pricing, the availability of alternatives, and various other factors can influence the consumption of certain services (e.g., EBPs).
 
@@ -197,7 +197,7 @@ IHS(Q) = IHS(Q_0)
 \end{equation}
 ```
 
-The ZBE model was used to evaluate a participant's consumption in units of therapy (*Q*) as prices (*P*) ranged from low to high. In this framework, the span of the demand curve (*k* [Eq. 2] or *Q~0~* [Eq. 3]) reflects the range of modeled consumption in IHS units and this was determined via parameter estimation. Parameter $\alpha$ reflects the overall intensity of demand as prices approach a price of zero (and potentially the full span; Equation 3) and $\alpha$ is an index of the overall sensitivity of Q to P. In contrast to the Exponential model of demand, $\alpha$ is normalized in units of Q0 to support comparisons in the absence of an explicit span parameter [@RN5193]. Unless noted otherwise, all model fitting was performed using the R Statistical Program [@R-base]. All analytical syntax and study data have been included as supplemental materials and are hosted in a repository managed by the corresponding author.[^2]
+The ZBE model was used to evaluate a participant's consumption in units of therapy (*Q*) as prices (*P*) ranged from low to high. In this framework, the span of the demand curve (*k* [Eq. 2] or *Q~0~* [Eq. 3]) reflects the range of modeled consumption in IHS units and this was determined via parameter estimation. Parameter $\alpha$ reflects the overall intensity of demand as prices approach a price of zero (and potentially the full span; Equation 3) and $\alpha$ is an index of the overall sensitivity of Q to P. In contrast to the Exponential model of demand, $\alpha$ is normalized in units of *Q~0~* to support comparisons in the absence of an explicit span parameter [@RN5193]. Unless noted otherwise, all model fitting was performed using the R Statistical Program [@R-base]. All analytical syntax and study data have been included as supplemental materials and are hosted in a repository managed by the corresponding author.[^2]
 
 [^2]: Repository is available at [\<https://www.github.com/miyamot0/TreatmentDemandPilot\>](https://www.github.com/miyamot0/TreatmentDemandPilot)
 
@@ -209,7 +209,7 @@ The alone-and own-price demand for EBPs was evaluated using the ZBE model of ope
 
 Demand for EBPs and ATs was evaluated with two different strategies. First, the own-price demand for EBPs was evaluated in the same manner as the alone-price demand approach listed above. Second, @RN5110 previously provided a form of the Exponential model that evaluates the cross-price elasticity of demand for alternatives. However, this approach was not used in this evaluation. Rather, a Generalized Estimating Equation (GEE) was used to evaluate how various covariates beyond price contribute to the consumption (or non-consumption) of ATs.
 
-The GEE procedure was selected over the @RN5110 approach for several pragmatic reasons. First, the GEE strategy is flexible and can be adapted to evaluate various factors (e.g., price, demographics) that may be related to reported consumption (i.e., covariates). Second, GEE is similar to multilevel models and often applied in experiments to account for repeated measurements across individuals [@RN5216; @RN5217; @RN5218]. Such an approach avoids issues associated with ordinary least squares regression, e.g., non-independence [@RN1039; @RN5220]. Third, similar to the methods proposed in @RN5110, the quantity regressed upon price in the GEE approach captures direction and rate of changes in consumption as the price to consume EBPs change. For instance, a weight of zero ascribed to Price would indicate no changes in AT consumption as prices to consume EBPs increased (i.e., services appear to be consumed independently). Alternatively, a non-zero value would indicate that the consumption of ATs changed in a particular direction in response to changes in the price for EBPs. Specifically, a positive value would indicate that the consumption of ATs *increased* while EBPs *decreased* (i.e., substitute) and a negative value would indicate the contrary (i.e., complement). Additionally, the fitted intercept represents an indicator of the AT's baseline hedonic value. Lastly, the GEE approach fares better in cases where the span parameter *I* in the @RN5110 model approaches zero, and the reciprocal nature of the *I* and $\alpha$ parameters occasionally leads to highly inflated and questionable estimates.
+The GEE procedure was selected over the @RN5110 approach for several pragmatic reasons. First, the GEE strategy is flexible and can be adapted to evaluate various factors (e.g., price, demographics) that may be related to reported consumption (i.e., covariates). Second, GEE is similar to multilevel models and often applied in experiments to account for repeated measurements across individuals [@RN5216; @RN5217; @RN5218]. Such an approach avoids issues associated with ordinary least squares regression, e.g., non-independence [@RN1039; @RN5220]. Third, similar to the methods proposed in @RN5110, the quantity regressed upon price in the GEE approach captures direction and rate of changes in consumption as the price to consume EBPs change. For instance, a weight of zero ascribed to Price would indicate no changes in AT consumption as prices to consume EBPs increased (i.e., services appear to be consumed independently). Alternatively, a non-zero value would indicate that the consumption of ATs changed in a particular direction in response to changes in the price for EBPs. Specifically, a positive value would indicate that the consumption of ATs *increased* while EBPs *decreased* (i.e., substitute) and a negative value would indicate the contrary (i.e., complement). Additionally, the fitted intercept represents an indicator of the ATs baseline hedonic value. Lastly, the GEE approach fares better in cases where the span parameter *I* in the @RN5110 model approaches zero, and the reciprocal nature of the *I* and $\alpha$ parameters occasionally leads to highly inflated and questionable estimates.
 
 # Results
 
@@ -438,7 +438,7 @@ plot
 
 ```
 
-A total of `r totalParticipants` participants completed the survey and `r nrow(mSurveyRes)` met all criteria for systematic purchase data across both HTPTs (`r round((nrow(mSurveyRes)/totalParticipants)*100, 2) `%). The demographics of included participants are listed in \autoref{tab:demos}. The alone-price demand for EBPs using mean consumption levels was evaluated using each of the ZBE models prior to analysis. Model comparisons revealed that the 3-parameter ZBE model better characterized the data than the two-parameter (*F[`r df1 - df2`, `r df2`]*=`r round(Fval,2)`, `r scales::pvalue(pval, add_p = TRUE)`) and one-parameter alternatives (*F[`r df1_2 - df2_2`, `r df2_2`]*=`r round(Fval_2,2)`, `r scales::pvalue(pval_2, add_p = TRUE)`). The 3-parameter form of the ZBE model was used to estimate *Q~0~* and $\alpha$ across reported levels of education (no college, some/junior college, 4+ year degree), gender (male, female), and family size (single, multiple children). The separate span parameter was estimated globally, and thus, shared across all participants. The results of this regression are listed in Table XXXX and displayed in \autoref{fig:rq1plot}. Model fits indicated a main effect for education, whereby caregivers with a four-year college degree or more reported significantly lower baseline levels of EBP consumption than individuals without a college education (*Q~0~ [Education \>= 4 Yr. College]*=`r coef(summary(out))["q0.Education>= 4 Yr College", "Value"]`, *T*=`r coef(summary(out))["q0.Education>= 4 Yr College", "t-value"]`, `r scales::pvalue(coef(summary(out))["q0.Education>= 4 Yr College", "p-value"], add_p = TRUE, accuracy = 0.05)`). Population-level predictions revealed a peak expenditure (*O~MAX~*) of `r round(which.max(dataProj$Work), 2)` USD towards EBPs, which occurred at a price (*P~MAX~*) of `r round(pMax[1], 2)` USD per unit hour of therapy.
+A total of `r totalParticipants` participants completed the survey and `r nrow(mSurveyRes)` met all criteria for systematic purchase data across both HTPTs (`r round((nrow(mSurveyRes)/totalParticipants)*100, 2) `%). The demographics of included participants are listed in \autoref{tab:demos}. The alone-price demand for EBPs using mean consumption levels was evaluated using each of the ZBE models prior to analysis. Model comparisons revealed that the 3-parameter ZBE model better characterized the data than the two-parameter (*F[`r df1 - df2`, `r df2`]*=`r round(Fval,2)`, `r scales::pvalue(pval, add_p = TRUE)`) and one-parameter alternatives (*F[`r df1_2 - df2_2`, `r df2_2`]*=`r round(Fval_2,2)`, `r scales::pvalue(pval_2, add_p = TRUE)`). The 3-parameter form of the ZBE model was used to estimate *Q~0~* and $\alpha$ across reported levels of education (no college, some/junior college, 4+ year degree), gender (male, female), and family size (single, multiple children). The separate span parameter was estimated globally, and thus, shared across all participants. The results of this regression are listed in \autoref{tab:models} and displayed in \autoref{fig:rq1plot}. Model fits indicated a main effect for education, whereby caregivers with a four-year college degree or more reported significantly lower baseline levels of EBP consumption than individuals without a college education (*Q~0~ [Education \>= 4 Yr. College]*=`r coef(summary(out))["q0.Education>= 4 Yr College", "Value"]`, *T*=`r coef(summary(out))["q0.Education>= 4 Yr College", "t-value"]`, `r scales::pvalue(coef(summary(out))["q0.Education>= 4 Yr College", "p-value"], add_p = TRUE, accuracy = 0.05)`). Population-level predictions revealed a peak expenditure (*O~MAX~*) of `r round(which.max(dataProj$Work), 2)` USD towards EBPs, which occurred at a price (*P~MAX~*) of `r round(pMax[1], 2)` USD per unit hour of therapy.
 
 ## Own-Price Demand for EBPs (EBP/AT HTPT)
 
@@ -480,7 +480,7 @@ crossPriceABA <- mSurveyRes %>%
          `5000` = `Substitution Task_1(15)`)
 
 crossPriceABA.long <- crossPriceABA %>%
-  gather(Price, Consumption, colnames(crossPriceABA)[2:14], factor_key=TRUE) %>%
+  gather(Price, Consumption, colnames(crossPriceABA)[2:14], factor_key = TRUE) %>%
   mutate(Price = as.numeric(as.character(Price))) %>%
   mutate(Consumption = as.numeric(Consumption)) %>%
   as.data.frame()
@@ -520,28 +520,18 @@ ss2 <- sum(resid(zbeFit.full.closed)^2)
 df1 <- df.residual(zbeFit.abbrev.closed)
 df2 <- df.residual(zbeFit.full.closed)
 
-Fval <- ((ss1-ss2)/ss2)/((df1-df2)/df2)
-pval <- 1 - pf(Fval, (df1-df2), df2)
+Fval <- ((ss1 - ss2)/ss2)/((df1 - df2)/df2)
+pval <- 1 - pf(Fval, (df1 - df2), df2)
 critF <- qf(c(0.025, 0.975), (df1 - df2), df2)
-
-#print("Null hypothesis: No Specific Span Parameter Necessary (Q0 == K)")
-#print("Alternative hypothesis: K is DIFFERENT from overall span")
-#print(paste0("Conclusion: ", if(pval < .05) "reject" else "fail to reject", " the null hypothesis"))
-#print(paste0("F(", (df1-df2), ",", df2, ") = ", round(Fval, 4), ", p = ", round(pval, 4)))
 
 ss1_2 <- sum(resid(zbeFit.null.closed)^2)
 ss2_2 <- sum(resid(zbeFit.full.closed)^2)
 df1_2 <- df.residual(zbeFit.null.closed)
 df2_2 <- df.residual(zbeFit.full.closed)
 
-Fval_2 <- ((ss1_2-ss2_2)/ss2_2)/((df1_2-df2_2)/df2_2)
-pval_2 <- 1 - pf(Fval_2, (df1_2-df2_2), df2_2)
+Fval_2 <- ((ss1_2 - ss2_2)/ss2_2)/((df1_2 - df2_2)/df2_2)
+pval_2 <- 1 - pf(Fval_2, (df1_2 - df2_2), df2_2)
 critF_2 <- qf(c(0.025, 0.975), (df1_2 - df2_2), df2_2)
-
-#print("Null hypothesis: No Specific Span Parameter Necessary (Q0 == K)")
-#print("Alternative hypothesis: K is DIFFERENT from overall span")
-#print(paste0("Conclusion: ", if(pval < .05) "reject" else "fail to reject", " the null hypothesis"))
-#print(paste0("F(", (df1-df2), ",", df2, ") = ", round(Fval, 4), ", p = ", round(pval, 4)))
 
 crossPriceABA.long <- crossPriceABA.long %>%
   mutate(Education = recode(Education,
@@ -556,7 +546,7 @@ crossPriceABA.long <- crossPriceABA.long %>%
 
 npar <- 5
 
-out <- gnls(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
+out2 <- gnls(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
               log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
               k *
               (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * Price) - 1),
@@ -576,7 +566,7 @@ out <- gnls(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(1
                                   returnObject = TRUE,
                                   opt = "optim"))
 
-crossPriceABA.long$pred <- tn$inverse(predict(out))
+crossPriceABA.long$pred <- tn$inverse(predict(out2))
 
 ps <- seq(0.1, 2000, length.out = 10000)
 
@@ -643,11 +633,7 @@ plot
 
 ```
 
-
-TODO: P values
-
-
-Model comparisons revealed that the 3-parameter form of the ZBE model better characterized own-price demand for EBPs than the two-parameter (*F[`r df1 - df2`, `r df2`]*=`r round(Fval,2)`, `r scales::pvalue(pval, add_p = TRUE)`) and one-parameter alternatives (*F[`r df1_2 - df2_2`, `r df2_2`]*=`r round(Fval_2,2)`, `r scales::pvalue(pval_2, add_p = TRUE)`). The 3-parameter form of the ZBE model was used to estimate *Q~0~*, $\alpha$, and *k* parameters in the same manner as in the Alone-Price demand for EBPs. The results of this regression are listed in Table XXXX and displayed in Figure 2. Model fits indicated that men demonstrated higher baseline levels of EBP consumption than women when an alternative therapy was available (*Q~0~ [Male]* = `r coef(summary(out))["q0.SexMale", "Value"]`, *T* = `r coef(summary(out))["q0.SexMale", "t-value"]`, *p* \< .05). However, men demonstrated greater sensitivity to changes in prices than women ($\alpha$ *[Male]* = `r coef(summary(out))["alpha.SexMale", "Value"]`, *T* = `r coef(summary(out))["alpha.SexMale", "t-value"]`, *p* \< .0001). Further, results indicated that caregivers of a single child demonstrated greater baseline levels of EBP consumption than those who cared for multiple children (*Q~0~ [Single]* = `r coef(summary(out))["q0.FamilySizeSingle", "Value"]`, *T* = `r coef(summary(out))["q0.FamilySizeSingle", "t-value"]`, *p* \< .01). Population-level predictions revealed a peak expenditure (*O~MAX~*) of 1,719.3 USD towards EBPs, which occurred at a price (*P~MAX~*) of 522.65 USD per unit hour of therapy.
+Model comparisons revealed that the 3-parameter form of the ZBE model better characterized own-price demand for EBPs than the two-parameter (*F[`r df1 - df2`, `r df2`]*=`r round(Fval,2)`, `r scales::pvalue(pval, add_p = TRUE)`) and one-parameter alternatives (*F[`r df1_2 - df2_2`, `r df2_2`]*=`r round(Fval_2,2)`, `r scales::pvalue(pval_2, add_p = TRUE)`). The 3-parameter form of the ZBE model was used to estimate *Q~0~*, $\alpha$, and *k* parameters in the same manner as in the Alone-Price demand for EBPs. The results of this regression are listed in \autoref{tab:models} and displayed in \autoref{fig:rq2plot}. Model fits indicated that men demonstrated higher baseline levels of EBP consumption than women when an alternative therapy was available (*Q~0~ [Male]* = `r coef(summary(out2))["q0.SexMale", "Value"]`, *T* = `r coef(summary(out2))["q0.SexMale", "t-value"]`, `r coef(summary(out2))["q0.SexMale", "p-value"]`). However, men demonstrated greater sensitivity to changes in prices than women ($\alpha$ *[Male]* = `r coef(summary(out2))["alpha.SexMale", "Value"]`, *T* = `r coef(summary(out2))["alpha.SexMale", "t-value"]`, `r coef(summary(out2))["alpha.SexMale", "p-value"]`). Further, results indicated that caregivers of a single child demonstrated greater baseline levels of EBP consumption than those who cared for multiple children (*Q~0~ [Single]* = `r coef(summary(out2))["q0.FamilySizeSingle", "Value"]`, *T* = `r coef(summary(out2))["q0.FamilySizeSingle", "t-value"]`, `r coef(summary(out2))["q0.FamilySizeSingle", "p-value"]`). Population-level predictions revealed a peak expenditure (*O~MAX~*) of `r round(which.max(dataProj$Work), 2)` USD towards EBPs, which occurred at a price (*P~MAX~*) of `r round(pMax[1], 2)` USD per unit hour of therapy.
 
 ## Cross-Price Demand for ATs (EBP/AT HTPT)
 
@@ -809,9 +795,9 @@ plotFrame <- emmip(fit.6, ~ Price,
 
 plot <- ggplot(plotFrame, aes(xvar, yvar)) +
   geom_line() +
-  geom_errorbar(aes(ymin=LCL,
-                    ymax=UCL), width= 0.05,
-                position=position_dodge(.9)) +
+  geom_errorbar(aes(ymin = LCL,
+                    ymax = UCL), width = 0.05,
+                position = position_dodge(.9)) +
   scale_x_continuous(breaks = c(50, 100, 500, 1000, 5000),
                      labels = c(50, 100, 500, 1000, 5000),
                      limits = c(40, 6000),
@@ -828,7 +814,7 @@ plot <- ggplot(plotFrame, aes(xvar, yvar)) +
         strip.background = element_blank(),
         strip.text = element_text(colour = 'black',
                                   face = 'bold'),
-        text=element_text(family="Times New Roman", size=12),
+        #text=element_text(family="Times New Roman", size=12),
         panel.spacing = unit(1.25, "lines"),
         axis.title.y = element_text(margin = margin(t = 0,
                                                     r = 0,
@@ -848,9 +834,17 @@ The cross-price demand for ATs was evaluated using GEE with an exchangeable corr
 
 The GEE was applied using the *geeglm* method included in the *geepack* R package [@RN5183]. Factors in the GEE fitting included Price (of EBP), Gender (Men, Women), Family Size (Single, Multiple Children), and Education (i.e., No College, \<= 2 Yr College, \>= 4 Yr College) and all possible interactions. Model selection using QIC favored the model with Price as the sole factor associated with the consumption of ATs ($\alpha$ [\*Price]\* = `r coef(summary(fit.6))["Price", "Estimate"]`, *W* = `r round(coef(summary(fit.6))["Price", "Estimate"], 2)`, `r scales::pvalue(coef(summary(fit.6))["Price", "Pr(>|W|)"], add_p = TRUE)`. Overall, results indicated that caregivers substituted ATs for EBPs as the price to consume EBPs increased. No other demographic factors were significantly related to levels of AT consumption.
 
-```{r rqxtable, results='asis', eval=FALSE}
+```{r rqxtable, results='asis'}
 
-texreg(out, caption = "Modeled Demand for Evidence-based Practices")
+modelList = list(out, out2)
+
+names(modelList) = c("Alone-Price", "Own-Price")
+
+texreg(modelList, 
+       digits = 4,
+       label = "tab:models",
+       caption.above = TRUE,
+       caption = "Modeled Demand for Evidence-based Practices")
 
 ```
 
