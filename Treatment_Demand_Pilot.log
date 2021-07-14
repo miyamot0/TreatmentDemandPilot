@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.7.14)  14 JUL 2021 12:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.7.14)  14 JUL 2021 12:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1181,18 +1181,27 @@ e pdf)
 Package pdftex.def Info: Treatment_Demand_Pilot_files/figure-latex/rq2plot-1.pd
 f  used on input line 352.
 (pdftex.def)             Requested size: 469.75604pt x 248.69437pt.
-[19 <./Treatment_Demand_Pilot_files/figure-latex/rq2plot-1.pdf>] [20] [21] [22]
-[23] [24] [25] [26] [27] [28] [29] [30] [31] [32] [33] [34] [35] AED endfloat: 
-Processing end Figures and Tables (./Treatment_Demand_Pilot.aux)
+[19 <./Treatment_Demand_Pilot_files/figure-latex/rq2plot-1.pdf>]
+<Treatment_Demand_Pilot_files/figure-latex/rq3plot-1.pdf, id=251, 614.295pt x 3
+25.215pt>
+File: Treatment_Demand_Pilot_files/figure-latex/rq3plot-1.pdf Graphic file (typ
+e pdf)
+<use Treatment_Demand_Pilot_files/figure-latex/rq3plot-1.pdf>
+Package pdftex.def Info: Treatment_Demand_Pilot_files/figure-latex/rq3plot-1.pd
+f  used on input line 361.
+(pdftex.def)             Requested size: 469.75604pt x 248.69437pt.
+[20 <./Treatment_Demand_Pilot_files/figure-latex/rq3plot-1.pdf>] [21] [22] [23]
+[24] [25] [26] [27] [28] [29] [30] [31] [32] [33] [34] [35] AED endfloat: Proce
+ssing end Figures and Tables (./Treatment_Demand_Pilot.aux)
 Package rerunfilecheck Info: File `Treatment_Demand_Pilot.out' has not changed.
 
-(rerunfilecheck)             Checksum: 6235A9372C315299D20D278EB33373D0;4523.
+(rerunfilecheck)             Checksum: E27B4A2E464584B6C10D566060E15621;4523.
  ) 
 Here is how much of TeX's memory you used:
- 25719 strings out of 480502
- 464759 string characters out of 5898416
- 778350 words of memory out of 5000000
- 42687 multiletter control sequences out of 15000+600000
+ 25730 strings out of 480502
+ 465301 string characters out of 5898416
+ 778664 words of memory out of 5000000
+ 42696 multiletter control sequences out of 15000+600000
  496490 words of font info for 97 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  99i,12n,103p,3151b,485s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1218,10 +1227,10 @@ b></Users/shawngilroy/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb
 ></Users/shawngilroy/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pf
 b></Users/shawngilroy/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy8.pf
 b>
-Output written on Treatment_Demand_Pilot.pdf (35 pages, 379303 bytes).
+Output written on Treatment_Demand_Pilot.pdf (35 pages, 384034 bytes).
 PDF statistics:
- 570 PDF objects out of 1000 (max. 8388607)
- 488 compressed objects within 5 object streams
- 167 named destinations out of 1000 (max. 500000)
- 207 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 577 PDF objects out of 1000 (max. 8388607)
+ 493 compressed objects within 5 object streams
+ 168 named destinations out of 1000 (max. 500000)
+ 212 words of extra memory for PDF output out of 10000 (max. 10000000)
 
