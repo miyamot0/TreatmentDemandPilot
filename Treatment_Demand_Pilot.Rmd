@@ -53,14 +53,53 @@ output            : papaja::apa6_pdf
 ---
 
 ```{r setup, include = FALSE}
-library("papaja")
+library(beezdemand)
+library(broom)
+library(dplyr)
+library(extrafont)
+library(geepack)
+library(ggplot2)
+library(ggsci)
+library(kableExtra)
+library(knitr)
+library(lattice)
+library(latticeExtra)
+library(nlme)
+library(papaja)
+library(qualtRics)
+library(readtext)
+library(scales)
+library(tidyr)
+
 r_refs("r-references.bib")
+
+tn <- trans_new("inhs",
+                function(x) log((x * 0.5) + ((0.5^2) * (x^2) + 1)^0.5)/log(10),
+                function(y) (1/10^(1*y))*((10^(2*y))-1),
+                domain=c(0, Inf),
+                breaks=c(0, 0.1, 1, 10, 100))
+
 ```
 
 ```{r analysis-preferences}
 # Seed for random number generation
 set.seed(42)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+
+mSurveyRes <- readxl::read_xlsx("RawResults.xlsx",
+                                na = "NA")
+
+skipThese <- c("R_10vBc6q1iYD6juF", "R_ZJKpsAPP9SYGJpL",
+               "R_x9LkdDQPqQE5t8B", "R_bBf7jB2Sawm4T3b",
+               "R_Di2tmQrWWLHg2iJ", "R_1oF4LBnCdBU70XC",
+               "R_u8tvJegfSTRC14B", "R_2anmKehkAtc6Pf2",
+               "R_REM9nx7gSRyNfrz")
+
+mSurveyRes <- mSurveyRes %>%
+  dplyr::filter(!is.na(`Pure Demand Task_1(2)`)) %>%
+  dplyr::filter(!(ResponseID %in% skipThese )) %>%
+  dplyr::filter(Finished == 1)
+
 ```
 
 # Introduction
@@ -173,7 +212,179 @@ The GEE procedure was selected over the @RN5110 approach for several pragmatic r
 
 ## Alone-Price Demand for EBPs (EBP HTPT)
 
-A total of 62 participants completed the survey and 54 met all criteria for systematic purchase data across both HTPTs (87.09%). The demographics of included participants are listed in Table 1. The alone-price demand for EBPs using mean consumption levels was evaluated using each of the ZBE models prior to analysis. Model comparisons revealed that the 3-parameter ZBE model better characterized the data than the two-parameter (*F [1, 699]* = 17.72, *p* \< .00001) and one-parameter alternatives (*F [2, 699]* = 319.53, *p* \< .00001). The 3-parameter form of the ZBE model was used to estimate *Q~0~* and $\alpha$ across reported levels of education (no college, some/junior college, 4+ year degree), gender (male, female), and family size (single, multiple children). The separate span parameter was estimated globally, and thus, shared across all participants. The results of this regression are listed in Table 2 and displayed in Figure 1. Model fits indicated a main effect for education, whereby caregivers with a four-year college degree or more reported significantly lower baseline levels of EBP consumption than individuals without a college education (*Q~0~ [Education \>= 4 Yr. College]* = -1.9409, *T* = -1.9716, *p* \< .05). Population-level predictions revealed a peak expenditure (*O~MAX~*) of 1,558.3 USD towards EBPs, which occurred at a price (*P~MAX~*) of 451.05 USD per unit hour of therapy.
+```{r rq1pre}
+
+totalParticipants = nrow(mSurveyRes) + length(skipThese)
+
+pureDemandFrame <- mSurveyRes %>%
+  select(c(ResponseID,
+           `Pure Demand Task_1(2)`,
+           `Pure Demand Task_1(3)`,
+           `Pure Demand Task_1(4)`,
+           `Pure Demand Task_1(5)`,
+           `Pure Demand Task_1(8)`,
+           `Pure Demand Task_1(9)`,
+           `Pure Demand Task_1(10)`,
+           `Pure Demand Task_1(11)`,
+           `Pure Demand Task_1(12)`,
+           `Pure Demand Task_1(13)`,
+           `Pure Demand Task_1(14)`,
+           `Pure Demand Task_1(15)`,
+           `Pure Demand Task_1(16)`,
+           numChildren,
+           bxConcern,
+           Education,
+           Sex,
+           Income)) %>%
+  rename(`50`   = `Pure Demand Task_1(2)`,
+         `100`  = `Pure Demand Task_1(3)`,
+         `150`  = `Pure Demand Task_1(4)`,
+         `200`  = `Pure Demand Task_1(5)`,
+         `250`  = `Pure Demand Task_1(8)`,
+         `300`  = `Pure Demand Task_1(9)`,
+         `400`  = `Pure Demand Task_1(10)`,
+         `500`  = `Pure Demand Task_1(11)`,
+         `750`  = `Pure Demand Task_1(12)`,
+         `1000` = `Pure Demand Task_1(13)`,
+         `2000` = `Pure Demand Task_1(14)`,
+         `3000` = `Pure Demand Task_1(15)`,
+         `5000` = `Pure Demand Task_1(16)`)
+
+pureDemandFrame.long <- pureDemandFrame %>%
+  gather(Price, Consumption, colnames(pureDemandFrame)[2:14], factor_key=TRUE) %>%
+  mutate(Price = as.numeric(as.character(Price))) %>%
+  mutate(Consumption = as.numeric(Consumption)) %>%
+  as.data.frame()
+
+pureDemandGroupFrame <- pureDemandFrame.long %>%
+  group_by(Price) %>%
+  summarise(
+    ConsumptionAve = mean(Consumption),
+    ConsumptionMdn = median(Consumption)
+  )
+
+zbeFit.full.closed <- nlmrt::wrapnls(
+  formula = log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
+    k +
+    log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) *
+    (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * Price) - 1),
+  start   = list(q0    = max(pureDemandGroupFrame$ConsumptionAve),
+                 k     = 1,
+                 alpha = 0.01),
+  data    = pureDemandFrame.long)
+
+zbeFit.abbrev.closed <- nls(formula = log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
+                              (log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10)) *
+                              (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * Price)),
+                            data = pureDemandFrame.long,
+                            start   = list(q0    = max(pureDemandGroupFrame$ConsumptionAve),
+                                           alpha = 0.01))
+
+zbeFit.null.closed <- nls(
+  formula = log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
+    log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10),
+  start   = list(q0    = max(pureDemandGroupFrame$ConsumptionAve)),
+  data    = pureDemandFrame.long)
+
+ss1 <- sum(resid(zbeFit.abbrev.closed)^2)
+ss2 <- sum(resid(zbeFit.full.closed)^2)
+df1 <- df.residual(zbeFit.abbrev.closed)
+df2 <- df.residual(zbeFit.full.closed)
+
+Fval <- ((ss1-ss2)/ss2)/((df1-df2)/df2)
+pval <- 1 - pf(Fval, (df1-df2), df2)
+critF <- qf(c(0.025, 0.975), (df1 - df2), df2)
+
+ss1_2 <- sum(resid(zbeFit.null.closed)^2)
+ss2_2 <- sum(resid(zbeFit.full.closed)^2)
+df1_2 <- df.residual(zbeFit.null.closed)
+df2_2 <- df.residual(zbeFit.full.closed)
+
+Fval_2 <- ((ss1_2-ss2_2)/ss2_2)/((df1_2-df2_2)/df2_2)
+pval_2 <- 1 - pf(Fval_2, (df1_2-df2_2), df2_2)
+critF_2 <- qf(c(0.025, 0.975), (df1_2 - df2_2), df2_2)
+
+### Go with full model
+
+pureDemandFrame.long <- pureDemandFrame.long %>%
+  mutate(Education = recode(Education,
+                            `Master's degree`                       = ">= 4 Yr College",
+                            `Bachelor's degree in college (4-year)` = ">= 4 Yr College",
+                            `Associate degree in college (2-year)`  = "<= 2 Yr College",
+                            `Some college but no degree`            = "<= 2 Yr College",
+                            `High school graduate (high school diploma or equivalent including GED)` = "No College")) %>%
+  mutate(Education = factor(Education,
+                     levels = c("No College", "<= 2 Yr College", ">= 4 Yr College" ))) %>%
+  mutate(FamilySize = ifelse(numChildren > 1, "Multiple", "Single"))
+
+out <- gnls(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
+                  log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
+                  k *
+                  (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * Price) - 1),
+                  data = pureDemandFrame.long,
+                  na.action = na.omit,
+                  params = list(q0 + alpha ~ Education + Sex + FamilySize, k ~ 1),
+                  start = list( fixed = c(q0 = rep(12, 5),
+                                          alpha = rep(0.001, 5),
+                                          k = 1)),
+
+                  weights = varPower(),
+                  control = gnlsControl(msMaxIter = 200,
+                                        maxIter = 300,
+                                        tolerance = 1,
+                                        nlsTol = 1,
+                                        apVar = F,
+                                        #minScale = .0001,
+                                        returnObject = TRUE,
+                                        opt = "optim"))
+
+pureDemandFrame.long$pred <- tn$inverse(predict(out))
+```
+
+```{r rq1plot, fig.cap="Alone-Price Demand for Evidence-based Practices", fig.scap="Plots here illustrate the modeled levels of Alone-Price demand for Evidence-based Practices across gender, family size, and degree of education. Demand is plotted in IHS-IHS coordinates to reveal how relative increases in price are associated with relative decreases in consumption.", fig.height=4.5, fig.width=8.5}
+
+pureDemandFrame.long = pureDemandFrame.long %>%
+  rename(`Family Size` = FamilySize) %>%
+  rename(`Gender` = Sex)
+
+plot <- ggplot(pureDemandFrame.long, aes(Price, pred,
+                                 lty = `Gender`,
+                                 color = `Family Size`)) +
+  geom_line() +
+  scale_x_continuous(breaks = c(50, 100, 500, 1000, 5000),
+                     labels = c(50, 100, 500, 1000, 5000),
+                     limits = c(50, 5000),
+                     trans = tn) +
+  scale_y_continuous(breaks = c(0, 1, 5, 10, 20),
+                     labels = c(0, 1, 5, 10, 20),
+                     limits = c(0, 20),
+                     trans = tn) +
+  theme_bw() +
+  scale_color_nejm() +
+  xlab("Price/Hour of Treatment") +
+  ylab("Treatment Consumption (Hours)") +
+  theme(legend.position = "bottom",
+        strip.background = element_blank(),
+        strip.text = element_text(colour = 'black',
+                                  face = 'bold'),
+        #text=element_text(family="Times New Roman", size=12),
+        panel.spacing = unit(1.25, "lines"),
+        axis.title.y = element_text(margin = margin(t = 0,
+                                                    r = 0,
+                                                    b = 0,
+                                                    l = 0)),
+        axis.title.x = element_text(margin = margin(t = 10,
+                                                    r = 0,
+                                                    b = 0,
+                                                    l = 0))) +
+  facet_wrap(~Education, ncol = 3, scales = "free") +
+  beezdemand::theme_apa()
+
+plot
+
+```
+
+A total of `r totalParticipants` participants completed the survey and `r nrow(mSurveyRes)` met all criteria for systematic purchase data across both HTPTs (`r round((nrow(mSurveyRes)/totalParticipants)*100, 2) `%). The demographics of included participants are listed in Table 1. The alone-price demand for EBPs using mean consumption levels was evaluated using each of the ZBE models prior to analysis. Model comparisons revealed that the 3-parameter ZBE model better characterized the data than the two-parameter (*F[`r df1 - df2`, `r df2`]*=`r round(Fval,2)`, `r scales::pvalue(pval, add_p = TRUE)`) and one-parameter alternatives (*F[`r df1_2 - df2_2`, `r df2_2`]*=`r round(Fval_2,2)`, `r scales::pvalue(pval_2, add_p = TRUE)`). The 3-parameter form of the ZBE model was used to estimate *Q~0~* and $\alpha$ across reported levels of education (no college, some/junior college, 4+ year degree), gender (male, female), and family size (single, multiple children). The separate span parameter was estimated globally, and thus, shared across all participants. The results of this regression are listed in Table 2 and displayed in Figure 1. Model fits indicated a main effect for education, whereby caregivers with a four-year college degree or more reported significantly lower baseline levels of EBP consumption than individuals without a college education (*Q~0~ [Education \>= 4 Yr. College]*=`r coef(summary(out))["q0.Education>= 4 Yr College", "Value"]`, *T*=`r coef(summary(out))["q0.Education>= 4 Yr College", "t-value"]`, `r scales::pvalue(coef(summary(out))["q0.Education>= 4 Yr College", "p-value"], add_p = TRUE)`). Population-level predictions revealed a peak expenditure (*O~MAX~*) of 1,558.3 USD towards EBPs, which occurred at a price (*P~MAX~*) of 451.05 USD per unit hour of therapy.
 
 ## Own-Price Demand for EBPs (EBP/AT HTPT)
 
