@@ -69,6 +69,7 @@ library(papaja)
 library(qualtRics)
 library(readtext)
 library(scales)
+library(texreg)
 library(tidyr)
 
 r_refs("r-references.bib")
@@ -339,6 +340,26 @@ out <- gnls(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(1
                                         opt = "optim"))
 
 pureDemandFrame.long$pred <- tn$inverse(predict(out))
+
+ps <- seq(0.1, 2000, length.out = 10000)
+
+q0     <- coef(summary(zbeFit.full.closed))["q0",    "Estimate"]
+alpha  <- coef(summary(zbeFit.full.closed))["alpha", "Estimate"]
+k      <- coef(summary(zbeFit.full.closed))["k",     "Estimate"]
+
+dataProj <- data.frame(
+  Prices      = ps,
+  Projections = NA,
+  Work        = NA
+)
+
+dataProj$Projections <- log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
+  k *
+  (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * dataProj$Prices) - 1)
+
+dataProj$Work <- dataProj$Prices * tn$inverse(dataProj$Projections)
+
+pMax = dataProj[which.max(dataProj$Work),]
 ```
 
 ```{r rq1plot, fig.cap="Alone-Price Demand for Evidence-based Practices", fig.scap="Plots here illustrate the modeled levels of Alone-Price demand for Evidence-based Practices across gender, family size, and degree of education. Demand is plotted in IHS-IHS coordinates to reveal how relative increases in price are associated with relative decreases in consumption.", fig.height=4.5, fig.width=8.5}
@@ -384,7 +405,7 @@ plot
 
 ```
 
-A total of `r totalParticipants` participants completed the survey and `r nrow(mSurveyRes)` met all criteria for systematic purchase data across both HTPTs (`r round((nrow(mSurveyRes)/totalParticipants)*100, 2) `%). The demographics of included participants are listed in Table 1. The alone-price demand for EBPs using mean consumption levels was evaluated using each of the ZBE models prior to analysis. Model comparisons revealed that the 3-parameter ZBE model better characterized the data than the two-parameter (*F[`r df1 - df2`, `r df2`]*=`r round(Fval,2)`, `r scales::pvalue(pval, add_p = TRUE)`) and one-parameter alternatives (*F[`r df1_2 - df2_2`, `r df2_2`]*=`r round(Fval_2,2)`, `r scales::pvalue(pval_2, add_p = TRUE)`). The 3-parameter form of the ZBE model was used to estimate *Q~0~* and $\alpha$ across reported levels of education (no college, some/junior college, 4+ year degree), gender (male, female), and family size (single, multiple children). The separate span parameter was estimated globally, and thus, shared across all participants. The results of this regression are listed in Table 2 and displayed in Figure 1. Model fits indicated a main effect for education, whereby caregivers with a four-year college degree or more reported significantly lower baseline levels of EBP consumption than individuals without a college education (*Q~0~ [Education \>= 4 Yr. College]*=`r coef(summary(out))["q0.Education>= 4 Yr College", "Value"]`, *T*=`r coef(summary(out))["q0.Education>= 4 Yr College", "t-value"]`, `r scales::pvalue(coef(summary(out))["q0.Education>= 4 Yr College", "p-value"], add_p = TRUE)`). Population-level predictions revealed a peak expenditure (*O~MAX~*) of 1,558.3 USD towards EBPs, which occurred at a price (*P~MAX~*) of 451.05 USD per unit hour of therapy.
+A total of `r totalParticipants` participants completed the survey and `r nrow(mSurveyRes)` met all criteria for systematic purchase data across both HTPTs (`r round((nrow(mSurveyRes)/totalParticipants)*100, 2) `%). The demographics of included participants are listed in Table 1. The alone-price demand for EBPs using mean consumption levels was evaluated using each of the ZBE models prior to analysis. Model comparisons revealed that the 3-parameter ZBE model better characterized the data than the two-parameter (*F[`r df1 - df2`, `r df2`]*=`r round(Fval,2)`, `r scales::pvalue(pval, add_p = TRUE)`) and one-parameter alternatives (*F[`r df1_2 - df2_2`, `r df2_2`]*=`r round(Fval_2,2)`, `r scales::pvalue(pval_2, add_p = TRUE)`). The 3-parameter form of the ZBE model was used to estimate *Q~0~* and $\alpha$ across reported levels of education (no college, some/junior college, 4+ year degree), gender (male, female), and family size (single, multiple children). The separate span parameter was estimated globally, and thus, shared across all participants. The results of this regression are listed in Table 2 and displayed in \autoref{fig:rq1plot}. Model fits indicated a main effect for education, whereby caregivers with a four-year college degree or more reported significantly lower baseline levels of EBP consumption than individuals without a college education (*Q~0~ [Education \>= 4 Yr. College]*=`r coef(summary(out))["q0.Education>= 4 Yr College", "Value"]`, *T*=`r coef(summary(out))["q0.Education>= 4 Yr College", "t-value"]`, `r scales::pvalue(coef(summary(out))["q0.Education>= 4 Yr College", "p-value"], add_p = TRUE)`). Population-level predictions revealed a peak expenditure (*O~MAX~*) of `r round(which.max(dataProj$Work), 2)` USD towards EBPs, which occurred at a price (*P~MAX~*) of `r round(pMax, 2)` USD per unit hour of therapy.
 
 ## Own-Price Demand for EBPs (EBP/AT HTPT)
 
@@ -395,6 +416,13 @@ Model comparisons revealed that the 3-parameter form of the ZBE model better cha
 The cross-price demand for ATs was evaluated using GEE with an exchangeable correlation structure and model comparisons were performed using the QIC metric included in the *MuMin* R package [@RN5190]. Briefly, the QIC value is an indicator frequently used to select the best performing model and correlation structure when comparing various modeling options in GEE [@RN5215]. As noted in @RN5215, the QIC metric is derived from the Akaike Information Criterion (AIC) [@RN817] but has been modified to support GEE because this procedure is not based on Maximum Likelihood Estimation.
 
 The GEE was applied using the *geeglm* method included in the *geepack* R package [@RN5183]. Factors in the GEE fitting included Price (of EBP), Gender (Men, Women), Family Size (Single, Multiple Children), and Education (i.e., No College, \<= 2 Yr College, \>= 4 Yr College) and all possible interactions. Model selection using QIC favored the model with Price as the sole factor associated with the consumption of ATs ($\alpha$ [\*Price]\* = 0.001, *W* = 26.2, *p* \< .0001). Overall, results indicated that caregivers substituted ATs for EBPs as the price to consume EBPs increased. No other demographic factors were significantly related to levels of AT consumption.
+
+```{r rqxtable, results='asis', eval=FALSE}
+
+texreg(out,
+        caption = "Modeled Demand for Evidence-based Practices")
+
+```
 
 # Discussion
 
