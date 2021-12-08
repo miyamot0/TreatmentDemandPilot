@@ -2,8 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
-*.log
-*.tex
+Treatment_Demand_Pilot.log
+Treatment_Demand_Pilot.tex
 Treatment_Demand_Pilot.tex
 Treatment_Demand_Pilot_files/
 nul
