@@ -1,12 +1,12 @@
 ---
 title             : "Applications of Operant Demand to Treatment Selection I: Characterizing Demand for Evidence-based Practices"
-shorttitle        : "TREATMENT DEMAND"
+shorttitle        : "TREATMENT DEMAND PILOT"
 
 author: 
   - name          : "Shawn P. Gilroy"
     affiliation   : "1"
     corresponding : yes
-    address       : "226 Audubon Hall Baton Rouge, Louisiana 70806"
+    address       : "220 Audubon Hall Baton Rouge, Louisiana 70806"
     email         : "sgilroy1@lsu.edu"
     role:
       - Conceptualization
@@ -31,12 +31,12 @@ authornote: |
  Shawn Patrick Gilroy is an Assistant Professor of School Psychology at Louisiana State University. Jodie Waits is a doctoral student in the School Psychology at Louisiana State University and Brent Kaplan is a Assistant Professor in the Department of Family and Community Medicine at the University of Kentucky College of Medicine. Correspondence should be directed to sgilroy1@lsu.edu. The source code necessary to recreate this work is publicly hosted in a repository at: https://github.com/miyamot0/TreatmentDemandPilot 
 
 abstract: |
- Various treatment approaches have been determined efficacious for improving child behavior outcomes. Despite a variety of evidence-based options, consumers often disregard empirically supported treatments to pursue alternatives that lack empirical support, e.g. fad therapies. The choice to pursue therapies lacking empirical support has been considered as a 'gamble' on therapeutic outcomes and this form of risky choice has historically been explained through various cognitive heuristics and biases. This report translates quantitative analyses from operant demand to characterize how caregivers of children with behavioral issues consume treatment services. The operant demand approach is presented, its utility for characterizing patterns of treatment consumption is discussed, and cross-price analyses of demand are applied to evaluate how various factors influence treatment-related decisions. Results indicated that caregivers endorsing interest in receiving behavioral parent training regularly pursued pseudoscientific alternatives as a substitute for an established therapy, despite explicit language stating a lack of evidence. These findings question the presumption of rationality in treatment choice as well as the degree to which scientific evidence influences the consumption of specific therapies. This report ends with a discussion of Consumer Behavior Analysis and how quantitative analyses of behavior can be used to better understand factors that help or hinder the dissemination of evidence-based practices.
+ Various treatment approaches have been determined efficacious for improving child behavior outcomes. Despite a variety of evidence-based options, consumers often disregard empirically supported treatments to pursue alternatives that lack empirical support, e.g. fad therapies. The choice to pursue therapies lacking empirical support has been considered as a ‘gamble’ on therapeutic outcomes and this form of risky choice has historically been explained using various cognitive heuristics and biases. This report translates quantitative analyses from the Operant Demand Framework to characterize how caregivers of children with behavioral issues consume treatment services. The operant demand framework is presented, its utility for characterizing patterns of treatment consumption is discussed, and a preliminary application of cross-price analyses of demand is performed to illustrate how various factors jointly influence treatment-related choice. Results indicated that caregivers endorsing interest in receiving behavioral parent training regularly pursued pseudoscientific alternatives as a functional substitute for an established therapy, despite explicit language stating a lack of evidence. These findings question the presumption of rationality in models of treatment choice as well as the degree to which scientific evidence influences the consumption of therapies. This report concludes with a discussion of Consumer Behavior Analysis and how quantitative analyses of behavior can be used to better understand factors that enhance or detract from the dissemination of evidence-based practices.
   
-keywords          : "behavioral economics, demand, substitution, evidence-based practices, pseudoscience, consumer behavior analysis"
+keywords          : "behavioral economics, substitution, evidence-based practices, pseudoscience, consumer behavior analysis"
 wordcount         : "X"
 
-bibliography      : ["r-references.bib"]
+bibliography      : ["referencesEndnote.bib"]
 
 floatsintext      : yes
 figurelist        : yes
@@ -45,7 +45,7 @@ footnotelist      : no
 linenumbers       : yes
 mask              : no
 draft             : yes
-
+nocite            : "@*"
 documentclass     : "apa7"
 csl               : "apa.csl"
 classoption       : "man"
@@ -92,163 +92,152 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 mSurveyRes <- readxl::read_xlsx("RawResults.xlsx",
                                 na = "NA")
 
-skipThese <- c("R_10vBc6q1iYD6juF", "R_ZJKpsAPP9SYGJpL",
-               "R_x9LkdDQPqQE5t8B", "R_bBf7jB2Sawm4T3b",
-               "R_Di2tmQrWWLHg2iJ", "R_1oF4LBnCdBU70XC",
-               "R_u8tvJegfSTRC14B", "R_2anmKehkAtc6Pf2",
-               "R_REM9nx7gSRyNfrz")
+# skipThese <- c("R_10vBc6q1iYD6juF", "R_ZJKpsAPP9SYGJpL",
+#                "R_x9LkdDQPqQE5t8B", "R_bBf7jB2Sawm4T3b",
+#                "R_Di2tmQrWWLHg2iJ", "R_1oF4LBnCdBU70XC",
+#                "R_u8tvJegfSTRC14B", "R_2anmKehkAtc6Pf2",
+#                "R_REM9nx7gSRyNfrz")
 
 mSurveyRes <- mSurveyRes %>%
   dplyr::filter(!is.na(`Pure Demand Task_1(2)`)) %>%
-  dplyr::filter(!(ResponseID %in% skipThese )) %>%
+  #dplyr::filter(!(ResponseID %in% skipThese )) %>%
   dplyr::filter(Finished == 1)
 
 ```
 
 # Introduction
 
-The @RN5192 has defined Evidence-based Practices (EBPs) as "...the integration of the best available research with clinical expertise in the context of patient characteristics, culture, and preferences (p. 273)." Broadly, a focus on EBPs reflects a commitment to align clinical services with the approaches and procedures that are most supported by credible and scientific evidence [@RN4856]. In the context of developmental and child behavior issues, various practices have been determined to be empirically supported for improving specific outcomes [@RN4847; @RN5119; @RN5123]. Although highlighted here in the context of child behavior therapies, it warrants noting that commitments to EBPs are typically observed in most clinical fields, including pediatrics [@RN5106], speech and language pathology [@RN5107], and healthcare more broadly [@RN5115].
+The APA Presidential Task Force on Evidence-Based Practice (2006) has defined Evidence-based Practices (EBPs) as "...the integration of the best available research with clinical expertise in the context of patient characteristics, culture, and preferences (p. 273)." Broadly, a focus on EBPs reflects a commitment to align clinical services with the approaches and procedures that are most supported by credible and scientific evidence (Newsom & Hovanitz, 2015). In the context of developmental and child behavior issues, various practices have been determined to be empirically supported for improving specific outcomes (Chambless et al., 1998; National Autism Center, 2015). Although highlighted here in the context of child behavior therapies, it warrants noting that commitments to EBPs are typically observed in most clinical fields, including pediatrics (American Academy of Pediatrics, 2017), speech and language pathology (American Speech-Language-Hearing Association, 2005), and healthcare more broadly (Evidence-Based Medicine Working Group, 1992).
 
 ## "Alternatives" to Evidence-based Practices
 
-Not all practices marketed to families experiencing undesired child behavior are supported by strong evidence (i.e., complementary and alternative treatment options). Practices marketed to caregivers may lack scientific evidence of efficacy, or worse, have a documented risk of harm [@RN5219]. Such dangerous and questionable services exist for the treatment of various developmental and behavioral disorders; however, these tend to be marketed most heavily towards families of children diagnosed with Autism Spectrum Disorder (ASD) [@RN5131]. Indeed, the range of 'fad' and pseudoscientific services marketed to the ASD population and their families has been considerable and has included practices such as Auditory Integration Training [@RN5126], Sensory Integration Therapy [@RN5124], various mineral supplements and dietary restrictions [@RN5133], chelation therapy [@RN5117], hyperbaric oxygen therapy [@RN5121], and Facilitated Communication [@RN5129], along with its derivative, the Rapid Prompting Method [@RN5136].
+Not all practices marketed to families experiencing undesired child behavior are supported by strong evidence (i.e., complementary and 'alternative' treatment options). Practices marketed to caregivers may lack scientific evidence of efficacy, or worse, have a documented risk of harm (Food and Drug Administration, 2019). Such dangerous and questionable services exist for the treatment of various developmental and behavioral disorders; however, these tend to be marketed most heavily towards families of children diagnosed with Autism Spectrum Disorder (ASD; Travers et al., 2016). Indeed, the range of 'fad' and pseudoscientific services marketed to the ASD population and their families has been considerable and has included practices such as Auditory Integration Training (Dawson & Watling, 2000), Sensory Integration Therapy (Lang et al., 2012), various mineral supplements and dietary restrictions (Trudeau et al., 2019), chelation therapy (Davis et al., 2013), hyperbaric oxygen therapy (Jepson et al., 2011), and Facilitated Communication (Mostert, 2001), along with its derivative, the Rapid Prompting Method (Hemsley, 2016).
 
-The proliferation of practices lacking strong evidence is not a recent development and these alternatives to EBPs have previously been described in ways such as "scientifically questionable" treatments [@RN5135], as "fads" or "controversial" treatments [@RN5111], or as forms of pseudoscientific thinking outright [@RN5138]. Regardless of the specific term used to describe the consumption of these practices, each refers to an instance where services are pursued despite a limited degree (or total lack) of scientific evidence. These services are marketed heavily towards families of children with developmental and behavioral disorders and often result in families adopting such practices at levels that exceed (or completely replace) EBPs [@RN5114]. Put simply, these alternative approaches seem to be consumed as if they were equivalent or superior replacements to EBPs (i.e., substitutes). This alarming trend is also reflected in professional decision-making, with educators of children in early childhood [@RN5140] and the public school system [@RN5118] endorsing high levels of these practices as well.
+The proliferation of practices lacking strong evidence is not a recent development and these alternatives to EBPs have previously been described in ways such as "scientifically questionable" treatments (Lilienfeld, 2005), as "fads" or "controversial" treatments (Foxx, 2008), or as forms of pseudoscientific thinking outright (Normand, 2008). Regardless of the specific term used to describe the consumption of these practices, each refers to an instance where services are pursued despite a limited degree (or total lack) of scientific evidence. These services are marketed heavily towards families of children with developmental and behavioral disorders and often result in families adopting such practices at levels that exceed (or completely replace) EBPs (Green et al., 2006). Put simply, these alternative approaches seem to be consumed as if they were equivalent or superior replacements to EBPs (i.e., functional substitutes). This alarming trend is also reflected in professional decision-making, with educators of children in early childhood (Stahmer et al., 2005) and the public school system (Hess et al., 2008) endorsing high levels of these practices as well.
 
 ## (A)Rational Treatment Choice
 
-The enduring demand for alternative therapies that lack scientific support naturally evokes questions regarding the factors that drive treatment choices. The rational assumption holds that decision-makers would allocate greater resources to the prospects that have the greatest likelihood of returns. EBPs are more associated with positive and reliable returns and thus should be consumed most readily and at higher levels. Viewing caregivers and families as consumers and treatments as investments in future health and wellness, classical economic assumptions hold that agents should respond in ways that maximize their expected utility or benefit [@RN5120]. Per classical economic reasoning, the rational actor should disregard inferior prospects that are associated with sub optimal or questionable benefits (i.e., poor return on the resources invested). However, deviations from these 'rational' choices are quite common [@RN1036; @RN251] and this perspective, Rational Choice Theory (RCT), fails to account for these phenomena. @RN5132 provided an exposition on the many issues associated with RCT and its limited utility in explaining real-world choices. They noted that RCT succeeds in describing how agents should make choices (i.e., to maximize utility) but fails to predict how agents actually make choices.
+The enduring demand for alternative therapies that lack scientific support naturally evokes questions regarding the factors that drive treatment choices. Rational assumptions hold that decision-makers would allocate greater resources to the prospects that have the greatest likelihood of returns. EBPs are more associated with positive and reliable returns, and thus, should be consumed most readily and at higher levels. Viewing caregivers and families as consumers and treatments as investments in future health and wellness, classical economic assumptions hold that agents should respond in ways that maximize their expected utility or benefit (Strotz, 1955). Per classical economic reasoning, the rational actor should disregard inferior prospects that are associated with suboptimal or questionable benefits (i.e., poor return on the resources invested). However, deviations from these 'rational' choices are quite common (Ainslie, 1974, 1992) and this perspective, Rational Choice Theory (RCT), fails to account for these phenomena. Specifically, RCT succeeds in describing how agents should make choices (i.e., to maximize utility) but fails to predict how agents actually make choices.
 
-Revisiting choice in the context of selecting behavior therapies, let us apply RCT to a hypothetical agent selecting from one of several treatment options for addressing their child's undesirable behavior. In this scenario, the choice is between an established EBP (e.g., Applied Behavior Analysis) and some alternative that clearly lacks scientific support (e.g., a fad or pseudoscientific behavior therapy). The rational agent would scrutinize the strength and degree of support for each form of therapy, and it stands to reason that they would choose the option associated with higher levels of efficacy (e.g., improvements in behavior). However, revisiting the concerns noted in @RN5132, RCT and assumptions of rationality provide a better description of how we should behave but serve as a poor framework for predicting how individuals actually make choices. As such, this calls into question to what extent differences in the degree of scientific evidence influence choices in child behavior therapies.
+Revisiting choice in the context of selecting behavior therapies, let us apply RCT to a hypothetical agent selecting from one of several treatment options for addressing their child's undesirable behavior. In this scenario, the choice is between an established EBP (e.g., applied behavior analysis) and some alternative that clearly lacks scientific support (e.g., a 'fad' or pseudoscientific behavior therapy). The rational agent would scrutinize the strength and degree of support for each form of therapy and it stands to reason that they would choose the option associated with higher levels of efficacy (e.g., improvements in behavior). However, revisiting the concerns noted above, RCT and assumptions of rationality provide a better description of how we should behave but serve as a poor framework for predicting how individuals actually make choices. As such, this calls into question whether differences in the degree of scientific evidence influence choices in child behavior therapies.
 
 ## Factors Associated with "Alternative" Treatment Choices
 
-Researchers have explored how various factors contribute to the consumption of alternative (i.e., suboptimal) treatment approaches. @RN4857 highlighted various strategies used to advertise the purported benefits of these approaches. Specifically, vendors of these approaches often use language that obscures the actual, likely effect(s) of the treatment. For example, the language included in these advertisements often includes vague and non-specific indicators of improvement that are difficult or impossible to quantitatively refute (e.g., increased 'focus', 'attending'). Additionally, these practices use language that emphasizes ease and immediacy, which are contrasted with EBPs that generally entail substantial time, effort, and resources to implement as designed. As such, the emphasis here is placed not on evidence (i.e., treatment efficacy) but instead on ease and immediacy---dimensions of reinforcement associated with greater efficacy and relative preference. It warrants noting that reinforcer efficacy and treatment efficacy are distinct concepts, with treatment efficacy representing distal effect(s) of treatment choices (e.g., child behavior improvement, outcomes) and reinforcer efficacy the proximal contingencies related to implementation (i.e., immediate consequences of implementation).
+Researchers have explored how various factors contribute to the consumption of alternative (i.e., suboptimal) treatment approaches. Smith (2015) highlighted various strategies used to advertise the purported benefits of these approaches. Specifically, vendors of these approaches often use language that obscures the actual, likely effect(s) of the treatment. For example, the language included in these advertisements often includes vague and non-specific indicators of improvement that are difficult or impossible to quantitatively refute (e.g., increased 'focus', 'attending'). Additionally, these practices use language that emphasizes ease and immediacy, which are contrasted with EBPs that generally entail substantial time, effort, and resources to implement as designed. As such, the emphasis here is placed not on evidence (i.e., treatment efficacy) but instead on ease and immediacy---dimensions of reinforcement associated with greater efficacy and relative preference. It warrants noting that reinforcer efficacy and treatment efficacy are distinct concepts, with treatment efficacy representing distal effect(s) of treatment choices (e.g., child behavior improvement, outcomes) and reinforcer efficacy the proximal contingencies related to implementation (i.e., immediate consequences of implementation).
 
-Beyond the use of vague and misleading language, @RN4923 posited that consumption can be maintained by a convergence of multiple reinforcement contingencies. Consumer Behavior Analysis highlights the relevance of both Utilitarian (UR) and Informational Reinforcement (IR) contingencies [@RN5112]. Briefly, UR contingencies closely relate to the traditional definition of reinforcement whereby the putative effect on behavior is a direct result of consuming the reinforcer (e.g., edibles). Alternatively, IR contingencies represent those mediated by members of the verbal community as a function of consuming specific goods or services (e.g., signaling status). To better illustrate the two, let us consider the social contingencies (informational) that differ when consuming economy versus luxury clothing. Controlling for size and features, both economy and luxury clothing offer comparable utilitarian contingencies because, functionally, they both provide the same direct result (i.e., protection from elements, warmth). However, the two differ in informational contingencies because the consumption of premium and luxury goods is much more associated with greater levels of recognition and praise by peers (i.e., the verbal community). Revisiting child behavior treatment, various 'fads' (e.g., fidget spinners) demonstrate spurious effects on behavior (i.e., low utilitarian value) but members of the verbal community often recognize and praise such patterns of consumption (e.g., status signaling, both in-person and via social media). Viewed across these dimensions, "alternative" treatment practices may not require any degree of utilitarian value at all to reach and sustain high levels of consumption and adoption.
+Beyond the use of vague and misleading language, Foxall (2004) posited that consumption can be maintained by a convergence of multiple reinforcement contingencies. Consumer Behavior Analysis highlights the relevance of both Utilitarian (UR) and Informational Reinforcement (IR) contingencies (Foxall, 2001). Briefly, UR contingencies closely relate to the traditional definition of reinforcement whereby the putative effect on behavior is a direct result of consuming the reinforcer (e.g., edible reinforcers). Alternatively, IR contingencies represent those mediated by members of the verbal community as a function of consuming specific goods or services (e.g., signaling status). To better illustrate the two, let us consider the social contingencies (informational) that differ when consuming economy versus luxury clothing. Controlling for size and features, both economy and luxury clothing offer comparable utilitarian contingencies because, functionally, they both provide the same direct result (i.e., protection from elements, warmth). However, the two differ in informational contingencies because the consumption of premium and luxury goods is much more associated with greater levels of recognition and praise by the verbal community. Revisiting child behavior treatment, various 'fads' (e.g., fidget spinners) demonstrate spurious effects on behavior (i.e., low utilitarian value) but members of the verbal community often recognize and praise such patterns of consumption (e.g., status signaling, both in-person and via social media). Viewed across these dimensions, "alternative" treatment practices may not require any degree of utilitarian value (i.e., efficacy) at all to reach and sustain high levels of consumption and adoption.
 
 ## Elucidating "Alternative" Treatment Choice
 
-Experimental research with human and non-human animals has developed and applied procedures that elucidate deviations from maximized utility, i.e. "irrational" choices [@RN251; @RN482]. Experimental methods emerging from Operant Behavioral Economics have revealed that organisms regularly deviate from rational choices and tend to demonstrate a relative preference for immediate and lesser prospects over optimal ones, which are typically delayed and may be uncertain. This phenomenon, discounting, is one of several frequently evaluated in the Operant Behavioral Economic framework [@RN5076; @RN5125].[^1]  Discounting has been explored in the context of various treatment situations, such as the choice of whether or not to pursue vaccination [@RN886], to continue or discontinue effective behavior therapy [@RN837], and whether to disregard optimal, but delayed behavior management strategies [@RN5109].
+Experimental research with human and non-human animals has developed and applied procedures that elucidate deviations from maximized utility, i.e. "irrational" choices (Ainslie, 1974; Ainslie & Herrnstein, 1981). Experimental methods emerging from Operant Behavioral Economics have revealed that organisms regularly deviate from rational choices and tend to demonstrate a relative preference for immediate and lesser prospects over optimal ones, which are typically delayed and may be uncertain. This phenomenon, discounting, is one of several frequently evaluated in the Operant Behavioral Economic framework (Hursh, 2014; Reed et al., 2013).[^1] Discounting has been explored in the context of various treatment choice situations, such as the choice of whether or not to pursue vaccination (Jit & Mibei, 2015), to continue or discontinue effective behavior therapy (Swift & Callahan, 2010), and whether to disregard optimal, but delayed behavior management strategies (Gilroy & Kaplan, 2020).
 
 [^1]: We note here that Consumer Behavior Analysis is a highly related perspective that is also subsumed under the greater Operant Behavioral Economic framework.
 
-Methods designed to elucidate patterns of sub optimal choice (i.e., discounting) typically present choices to participants in a dichotomous manner (e.g., Larger, Later vs. Smaller, Sooner). In these procedures, prospects vary across one or two dimensions (e.g., delays, magnitude) and this is highly effective for isolating the effects of certain aspects of choice. However, choices take place in complex environments and the dichotomous nature of this format fails to account for the various relations that exist between reinforcers (e.g., complementary, substitutional relations) [@RN5170]. For instance, consider the treatment programming for a young child diagnosed with ASD. Caregivers of children diagnosed with this disorder typically report consuming a wide range of different behavior therapies, concurrently, each at varying degrees [@RN5114; @RN869]. In a survey of caregiver treatment choices, @RN5114 found that caregivers of children with ASD, on average, endorsed the use of up to eight behavior therapies at a time. Given that treatment choices are rarely dichotomous (i.e., just Treatment A or just Treatment B) and because relations likely exist between treatments, the delay discounting framework fails to account for the possible interactions between treatment choices.
+Methods designed to elucidate patterns of suboptimal choice (i.e., discounting) typically present choices to participants in a dichotomous manner (e.g., larger, later vs. smaller, sooner).
 
-Within the Operant Behavioral Economic framework, the demand methodology provides a means of analyzing patterns of consumption under various constraints, e.g. time, limited resources [@RN241; @RN5130; @RN648]. Rather than presenting choices as dichotomous (i.e., which treatments), consumption is indexed continuously across alternatives (i.e., how much of each treatment). In a hypothetical experiment related to treatment choice, a caregiver might endorse the consumption of Therapy A for five hours/week on average, Therapy B for four hours/week on average, and Therapy C for one hour a week on average---each consumed at a different price. The operant demand framework supports an analysis of how pricing, the availability of alternatives, and various other factors can influence the consumption of certain services (e.g., EBPs).
+In these procedures, prospects vary across one or two dimensions (e.g., delays, magnitude) and this is highly effective for isolating the effects of certain aspects of choice. However, choices take place in complex arrangements and the dichotomous nature of this format fails to account for the relations that may exist between reinforcers (e.g., complementary, substitutional relations; Hursh, 1980). For instance, consider the treatment programming for a young child diagnosed with ASD. Caregivers of children diagnosed with this disorder typically report consuming a wide range of different behavior therapies, concurrently, each to varying degrees (Goin-Kochel et al., 2007; Green et al., 2006). In a survey of caregiver treatment choices, Green et al. (2006) found that caregivers of children with ASD, on average, endorsed the use of up to eight behavior therapies at a time. Given that treatment choices are rarely dichotomous (i.e., just Treatment A or just Treatment B) and because relations likely exist between treatments, the discounting framework fails to account for the possible interactions that might exist between treatment choices.
 
-Operant demand methods are well-suited to characterizing the consumption of behavior therapies for several reasons. First, researchers can evaluate the bliss point consumption of specific goods or services. That is, the consumer's overall level of demand, if the price was no object, can be modeled directly and used as an index of its hedonic value [@RN5130]. This is useful for comparing the demand for specific services across individuals and arrangements (e.g., EBPs, recommended treatments). Additionally, researchers can evaluate how strongly consumers would defend their levels of consumption of services when prices increase or when other treatment alternatives become available [@RN1099]. When we speak of defending consumption, we refer to the degree to which the consumer remains committed to their base level consumption of some treatment service before either ceasing that consumption (i.e., terminating therapy) or substituting that consumption with some alternative (e.g., fads, alternative therapies). For instance, a high level of demand would indicate that agents were willing to endure the burden of high costs to maintain their base levels of EBP consumption. Alternatively, a low level of defense would mean that agents quickly decrease/cease their consumption of EBPs when relatively minor increases in price/effort are encountered. This sensitivity to changes in price (i.e., rate of change in elasticity) is captured in models via a rate parameter in the demand curve [@RN5130; @RN5176]. For convenience, the original Exponential model of operant demand outlined in @RN5130 is listed in Equation 1 below:
+Within the Operant Behavioral Economic framework, the demand methodology provides a means of analyzing patterns of consumption under various constraints, e.g. time, limited resources (Hursh, 1980; Kagel & Winkler, 1972; Rachlin et al., 1976). Rather than presenting choices as dichotomous (i.e., which treatments), consumption is indexed continuously across alternatives (i.e., how much of each treatment). In a hypothetical experiment related to treatment choice, a caregiver might endorse the consumption of Therapy A for five hours/week on average, Therapy B for four hours/week on average, and Therapy C for one hour a week on average---each consumed at a different price. The Operant Demand Framework supports an analysis of how pricing, the availability of alternatives, and various other factors influence the consumption of certain services (e.g., EBPs).
+
+Operant demand methods are well-suited to characterizing the consumption of behavior therapies for several reasons. First, researchers can evaluate the bliss point consumption of specific goods or services. That is, the consumer's overall level of demand, if the price was no object, can be modeled directly and used as an index of its hedonic value (Hursh & Silberberg, 2008). This is useful for comparing the demand for specific services across individuals and arrangements (e.g., EBPs, recommended treatments). Additionally, researchers can evaluate how strongly consumers would defend their levels of consumption of services when prices increase or when other treatment alternatives become available (Hursh, 2000). When we speak of defending consumption, we refer to the degree to which the consumer remains committed to their base level consumption of some treatment service before either ceasing that consumption (i.e., terminating therapy) or substituting that consumption with some alternative (e.g., fads, alternative therapies). For instance, a high level of demand would indicate that agents were willing to endure the burden of high costs to maintain their base levels of EBP consumption. Alternatively, a low level of defense would mean that agents quickly decrease/cease their consumption of EBPs when relatively minor increases in price/effort are encountered. This response is captured in models via a rate parameter in the demand curve (Gilroy et al., 2020; Hursh & Silberberg, 2008). For convenience, the original Exponential model of operant demand outlined in Hursh and Silberberg (2008) is listed in Equation 1 below:
 
 ```{=tex}
 \begin{equation}
 log_{10}Q = log_{10}Q_0+k(e^{-\alpha Q_0 P}-1)
 \end{equation}
 ```
-
-In this exponential decay model, consumption (Q) is modeled as a function of price (P). As mentioned previously, Q0 represents the bliss point and the $\alpha$ parameter reflects the sensitivity to price standardized to intercept levels. The range of consumption is constrained by the parameter k. In addition to characterizing the demand for behavior therapies, the operant demand approach can be used to quantify relationships that exist between different types of commodities and how they are consumed in tandem [@RN5110]. For example, decision-makers may consume certain treatments together (i.e., the treatments complement one another), consume certain treatments only as a replacement to others (i.e., one treatment substitutes the other), or the consumption of treatments may be completely independent of one another [@RN5127]. Such relationships are particularly useful for characterizing choices for behavior intervention because it is unclear how caregivers arrive at specific combinations of behavior treatment. For instance, this approach can be used to quantify how families consume and defend their consumption of EBPs in the presence and absence of "alternatives" that differ in levels of empirical evidence or treatment efficacy. Similarly, this approach can be used to determine whether "alternative" treatments are consumed as substitutes to EBPs, as complements, or if the consumption of the two appears to occur independently of each other.
+In this exponential decay model, consumption (Q) is modeled as a function of price (P). As mentioned previously, $Q_0$ represents the bliss point and the $\alpha$ parameter reflects the rate of change in elasticity standardized to the level of the intercept. The range of consumption is constrained by the parameter k. In addition to characterizing the demand for behavior therapies, the operant demand approach can be used to quantify relationships that exist between different types of commodities and how they are consumed in tandem (Hursh et al., 2013). For example, decision-makers may consume certain treatments together (i.e., the treatments complement one another), consume certain treatments only as a replacement to others (i.e., one treatment substitutes the other), or the consumption of treatments may be completely independent of one another (Hursh & Roma, 2016). Such relationships are particularly useful for characterizing choices for behavior intervention because it is unclear how caregivers arrive at specific combinations of behavior treatment. For instance, this approach can be used to quantify how families consume and defend their consumption of EBPs in the presence and absence of "alternatives" that differ in levels of empirical evidence or treatment efficacy. Similarly, this approach can be used to determine whether "alternative" treatments are consumed as substitutes to EBPs, as complements, or if the consumption of the two appears to occur independently of each other.
 
 ## Research Goals
 
-The purpose of this study was to evaluate factors associated with the consumption of child behavior therapies (e.g., EBPs, alternative treatments). Two Hypothetical Treatment Purchase Tasks (HTPTs) were developed to evaluate the consumption of various treatments when each varied in terms of their level of supporting evidence. Methods from operant demand were applied to quantify the patterns of consumption observed when EBPs were available alone (closed economy) and accompanied by an alternative therapy (open economy). The overall demand for EBPs was evaluated alone as well as with cross-price analyses to quantify the relationship between EBPs and alternative therapies (e.g., complements, substitutes).
+The purpose of this study was to provide a preliminary demonstration of how the Operant Demand Framework can be used to evaluate factors associated with the consumption of child behavior therapies (e.g., EBPs, alternative treatments). Specifically, the goal of this demonstration was to evaluate whether caregivers would pursue alternative treatments (i.e., no evidence) as if they were functional substitutes to EBPs. Two Hypothetical Treatment Purchase Tasks (HTPTs) were developed in this study to evaluate the consumption of treatments when each varied in terms of their level of supporting evidence. Methods from operant demand were applied to quantify the patterns of consumption observed when EBPs were available alone (closed economy) and accompanied by an alternative therapy (open economy). The overall demand for EBPs was evaluated alone as well as with cross-price analyses to quantify the relationship between EBPs and alternative therapies (e.g., complements, substitutes).
 
 # Methods
 
 ## Participants
 
-A total of 62 caregivers of children endorsing child behavior concerns as well as interest in pursuing behavioral therapy were recruited using the Amazon Mechanical Turk platform (MTurk). Briefly, MTurk is a crowdsourcing platform where "workers" (i.e., participants) meeting requisite criteria complete various tasks for "requesters" (i.e., researchers) and are compensated for their work [@RN5116]. The task was made available to workers on the MTurk platform if they met the following criteria: 1) completion of at least 1,000 total tasks; 2) maintained an overall 99% approval rating for their submitted work; 3) and resided in the United States. These requirements are consistent with recommended practices for gathering "crowdsourced" participant data and previous applications [@RN5116]. Eligible workers completed a survey designed using the Qualtrics Research Suite.
+A total of 63 caregivers of children reporting child behavior concerns as well as interest in pursuing parent-mediated behavioral therapy were recruited using the Amazon Mechanical Turk platform (MTurk). Briefly, MTurk is a crowdsourcing platform where "workers" (i.e., participants) meeting requisite criteria complete various tasks for "requesters" (i.e., researchers) and are compensated for their work (Chandler & Shapiro, 2016). The task was made available to workers on the MTurk platform if they met the following criteria: 1) completion of at least 1,000 total tasks; 2) maintained an overall 99% approval rating for their submitted work; 3) and resided in the United States. These requirements are consistent with recommended practices for gathering "crowdsourced" participant data (Chandler & Shapiro, 2016). Eligible workers completed a survey designed using the Qualtrics Research Suite^TM^.
 
 ## Criteria for Inclusion
 
-All study methods and instruments were approved by the Louisiana State University Institutional Review Board. The initial portion of the research instrument evaluated whether the caregivers were eligible to participate. Prospective participants had to have been caring for at least one school-aged child in a custodial role and endorsed some level of concern regarding their child's behavior (i.e., enough to consider behavior therapy). Caregivers endorsing that they either had no children, no child behavioral concerns, or no interest in pursuing child behavior therapies were subsequently informed that they were not eligible to participate in the study. Once determined ineligible, workers were unable to re-attempt the study (i.e., individual worker IDs were logged and screened from subsequent batches). After the survey, participants who completed all measures were provided with a unique string which was then submitted to the MTurk portal to complete the HIT and received a \$1.00 payment for the approximately 10 min task, i.e. consistent with recommended payment guidelines; see @RN5116.
+All study methods and instruments were approved by the Louisiana State University Institutional Review Board. The initial portion of the research instrument evaluated whether the caregivers were eligible to participate. Prospective participants had to have been caring for at least one school-aged child in a custodial role and endorsed some level of concern regarding their child's behavior (i.e., enough to consider behavior therapy). Caregivers endorsing that they either had no children, no child behavioral concerns, or no interest in pursuing parent-mediated child behavior therapies were subsequently informed that they were not eligible to participate in the study. Once detendividual worker IDs were logged and screened from subsequent batches). After the survey, participants who completed all measures were provided with a unique string which was then submitted to the MTurk portal to complete the HIT and received a \$1.00 payment for the approximately 10 min task, i.e. consistent with recommended payment guidelines; see Chandler and Shapiro (2016).
 
 ## Systematicity of Demand Data
 
-Responses collected using the MTurk platform were evaluated for indicators of systematic responding (i.e., non-random patterns of choice). Criteria for systematic responding on Hypothetical Purchase Task data were first proposed in @RN123 and these were designed to assess three indicators of systematic demand data. First, 'trend' refers to the global direction of consumption and the expected form of consumption is a decreasing trend as prices increase (i.e., from low to high prices). Second, 'bounce' refers to the local direction of consumption as prices increase. That is, consumption should not be low at one price only to be followed by high consumption at the next highest price. Third, 'reversals from zero' speak to instances where non-zero consumption is reported after zero consumption is endorsed at a lower price. That is, it would be unexpected to consume 0 service units at \$100/hour and then subsequently report consumption of 2 service units at \$250/hour. These indicators were assessed using methods included in the beezdemand software package [@RN5134] in the R Statistical Program [@R-base]. Combined, these indicators of responding provide a level of data validation when using crowdsourced data and data meeting all indicators were carried forward into the final analyses.
+Responses collected using the MTurk platform were evaluated for indicators of systematic responding (i.e., non-random patterns of choice). Criteria for systematic responding on Hypothetical Purchase Task data were first proposed in Stein et al. (2015) and these were designed to assess three indicators of systematic demand data. First, ‘trend’ refers to the global direction of consumption and the expected form of consumption is a decreasing trend as prices increase (i.e., from low to high prices). Second, ‘bounce’ refers to the local direction of consumption as prices increase. That is, consumption should not be low at one price only to be followed by high consumption at the next highest price. Third, ‘reversals from zero’ speak to instances where non-zero consumption is reported after zero consumption is endorsed at a lower price. That is, it would be unexpected to consume 0 service units at \$100/hour and then subsequently report consumption of 2 service units at $250/hour. These indicators were assessed using methods included in the *beezdemand* software package (Kaplan et al., 2019) in the R Statistical Program (R Core Team, 2017). These indicators of responding provide a level of data validation when using crowdsourced data.
 
 ## Hypothetical Treatment Purchase Task (HTPT)
 
-Caregivers eligible to participate in the study completed two HTPTs---one with EBPs available alone and another with EBPs accompanied by a mock Alternative Therapy (EBP+AT). In each HTPT, participants were allotted a hypothetical budget of up to \$5,000 per week to spend towards child behavior services with a maximum of 20 hours available for treatment. The overall budget and price points were formed around an approximated hourly rate of 200 USD and a standard deviation of 50 USD. Participants were informed that if they did not spend the funds on treatment the remaining money could not be directed elsewhere or saved. Similarly, both treatments were described as parent-training programs and each was framed in terms that indicated equal effort and time commitments. In both HTPTs, the prices per unit (i.e., hour of service) for the EBP were \$50, \$100, \$150, \$200, \$250, \$300, \$400, \$500, \$750, \$1000, \$2000, \$3000, and \$5000 per hour. Prices for the EBP were identical across both the EBP and the EBP+AT HTPTs.
+Caregivers eligible to participate in the study completed two HTPTs—one with EBPs available alone and another with EBPs accompanied by a mock Alternative Therapy (EBP+AT). In each HTPT, participants were allotted a hypothetical budget of up to \$5,000 per week to spend towards child behavior services with a maximum of 20 hours available for treatment. The overall budget and price points were formed around an approximated hourly rate of 200 USD. Participants were informed that if they did not spend the funds on treatment the remaining money could not be directed elsewhere or saved. Similarly, both treatments were described as parent-training programs and each was framed in terms that indicated equal effort and time commitments. In both HTPTs, the prices per unit (i.e., hour of service) for the EBP were \$50, \$100, \$150, \$200, \$250, \$300, \$400, \$500, \$750, \$1000, \$2000, \$3000, and \$5000 per hour. Prices for the EBP were identical across both the EBP and the EBP+AT HTPTs.
 
 ### Alone-Price Demand for EBPs (EBP HTPT)
 
-The EBP HTPT was designed to elucidate caregiver choice when only EBPs were available. The EBP presented here was derived from established behavioral principles of punishment and reinforcement (see Appendix). The vignette presented to the participant explicitly stated that the EBP was strongly supported by empirical research and caregivers were instructed to imagine that their child's primary care physician would highly recommend this approach based on credible and scientific evidence. Alone-price demand for EBPs was assessed across each of the prices listed in the section above. At each price point, participants could elect to spend as much or as little time and money toward these services as they preferred or could afford. If participants endorsed preferences beyond those constraints (e.g., over 20 hours, over \$5,000) they were subsequently prompted to spend within their budget before they could proceed to the next price point or task.
+The EBP HTPT was designed to elucidate caregiver choice when only EBPs were available. The EBP presented here was derived from established behavioral principles of punishment and reinforcement (see Appendix). The vignette presented to the participant explicitly stated that the EBP was strongly supported by empirical research and caregivers were instructed to imagine that their child’s primary care physician would highly recommend this approach based on credible and scientific evidence. Alone-price demand for EBPs was assessed across each of the prices listed in the section above. At each price point, participants could elect to spend as much or as little time and money toward these services as they preferred or could afford. If participants endorsed preferences beyond those constraints (e.g., over 20 hours, over \$5,000) they were subsequently prompted to spend within their budget before they could proceed to the next price point or task.
 
 ### Own-Price Demand for EBPs (EBP+AT HTPT)
 
-The EBP+AT HTPT was designed to evaluate patterns of choice across EBPs and ATs. This task included the same prices, budget, and EBP from the EBP HTPT but also featured an AT option that was available at a fixed price (\$100/hour). That is, both an EBP and an AT were concurrently available in any combination desired by the caregiver. The AT described here was a mock pseudoscientific treatment termed 'Positive Attachment Therapy.' In addition to the vignette for the EBP, a second vignette was presented to the caregiver specific to the AT (see Appendix). In this vignette, the AT was described as a therapeutic approach for challenging behavior using 'therapeutic embrace' as the underlying mechanism of behavior change--similar to the basis for Gentle Touch [@RN5108]. Additionally, the vignette explicitly stated that the AT did not have scientific evidence supporting its use, and caregivers were instructed to imagine that their child's primary care physician recommended against this approach due to its lack of scientific evidence. Consistent with the EBP HTPT, participants could spend as much time and/or money towards treatment(s) given time and cost constraints.
+The EBP+AT HTPT was designed to evaluate patterns of choice across EBPs and ATs. This task included the same prices, budget, and EBP from the EBP HTPT but also featured an AT option that was available at a fixed price (\$100/hour). That is, both an EBP and an AT were concurrently available in any combination desired by the caregiver. The AT described here was a mock pseudoscientific treatment termed ‘Positive Attachment Therapy.’ In addition to the vignette for the EBP, a second vignette was presented to the caregiver specific to the AT (see Appendix). In this vignette, the AT was described as a therapeutic approach for challenging behavior using ‘therapeutic embrace’ as the underlying mechanism of behavior change–similar to the basis for Gentle Touch (Bailey, 1992). Additionally, the vignette explicitly stated that the AT did not have scientific evidence supporting its use, and caregivers were instructed to imagine that their child’s primary care physician recommended against this approach due to its lack of scientific evidence. Consistent with the EBP HTPT, participants could spend as much time and/or money towards treatment(s) given time and cost constraints.
 
 ## Analytical Plan
 
-Caregiver consumption of EBPs and FPTs across both HTPTs was evaluated using the Zero Bounded Exponential (ZBE) model of demand [@RN5193]. Briefly, the ZBE model is an extension of the original Exponential model of operant demand [@RN5130] with a modified scale (Inverse Hyperbolic Sine) that optionally supports a true lower bound at zero consumption. Specifically, the ZBE model has a form to accommodate non-zero lower asymptotes (i.e., not at zero; Equation 2), zero asymptotes (i.e., reaching true zero; Equation 3), and when demand is purely inelastic (i.e., demand essentially flat; Equation 4). Each variant exists in the same scale (IHS) and models can be evaluated using traditional model selection procedures (e.g., Sum of Squares F-test). Specifically, Eq. 3 and Eq. 4 were considered restricted forms of Eq. 2 and the complexity of the final model was determined prior to performing further analysis. The various forms of the ZBE model are illustrated below:
+Caregiver consumption of EBPs and FPTs across both HTPTs was evaluated using the Zero Bounded Exponential (ZBE) model of demand (Gilroy et al., 2021) in a mixed-effects modeling approach (Kaplan et al., 2021). Briefly, the ZBE model is an extension of the original Exponential model of operant demand (Hursh & Silberberg, 2008) with a modified scale (Inverse Hyperbolic Sine) that optionally supports a true lower bound at zero consumption. Specifically, the ZBE model has a form to accommodate non-zero lower asymptotes (i.e., not at zero; Equation 2), zero asymptotes (i.e., reaching true zero; Equation 3), and when demand is purely inelastic (i.e., demand essentially flat; Equation 4). Each variant exists in the same scale (IHS) and models can be evaluated using traditional model selection procedures (e.g., Sum of Squares F-test). Specifically, Eq. 3 and Eq. 4 were considered restricted forms of Eq. 2 and the complexity of the final model was determined before performing further analysis. The various forms of the ZBE model are illustrated below:
 
 ```{=tex}
-\begin{equation}
-IHS(Q) = IHS(Q_0)+k(e^{-\alpha Q_0 P}-1)
-\end{equation}
-```
-```{=tex}
-\begin{equation}
-IHS(Q) = IHS(Q_0)+k(e^{-\frac{\alpha}{IHS(Q_0)} Q_0 P}-1)
-\end{equation}
-```
-```{=tex}
-\begin{equation}
-IHS(Q) = IHS(Q_0)
-\end{equation}
+\begin{align}
+IHS(Q) &= IHS(Q_0) + k(e^{-\alpha Q_0 P}-1) \\
+IHS(Q) &= IHS(Q_0) * e^{-\frac{\alpha}{IHS(Q_0)} Q_0 P} \\
+IHS(Q) &= IHS(Q_0)
+\end{align}
 ```
 
-The ZBE model was used to evaluate a participant's consumption in units of therapy (*Q*) as prices (*P*) ranged from low to high. In this framework, the span of the demand curve (*k* [Eq. 2] or *Q~0~* [Eq. 3]) reflects the range of modeled consumption in IHS units and this was determined via parameter estimation. Parameter $\alpha$ reflects the overall intensity of demand as prices approach a price of zero (and potentially the full span; Equation 3) and $\alpha$ is an index of the overall sensitivity of Q to P. In contrast to the Exponential model of demand, $\alpha$ is normalized in units of *Q~0~* to support comparisons in the absence of an explicit span parameter [@RN5193]. Unless noted otherwise, all model fitting was performed using the R Statistical Program [@R-base]. All analytical syntax and study data have been included as supplemental materials and are hosted in a repository managed by the corresponding author.[^2]
-
-[^2]: Repository is available at [\<https://www.github.com/miyamot0/TreatmentDemandPilot\>](https://www.github.com/miyamot0/TreatmentDemandPilot)
+The ZBE model was used to evaluate a participant’s consumption in units of therapy *(Q)* as prices *(P)* ranged from low to high. In this framework, the span of the demand curve (*k* [Eq. 2] or $Q_0$ [Eq. 3]) reflects the range of modeled consumption in IHS units and this was determined via parameter estimation. Parameter $Q_0$ reflects the overall intensity of demand as prices approach a price of zero (and potentially the full span; Equation 3) and $\alpha$ is an index of the rate of change in elasticity. In contrast to the Exponential model of demand, $\alpha$ can be normalized in units of $Q_0$ to support comparisons in the absence of an explicit span parameter (Gilroy et al., 2021). Unless noted otherwise, all model fitting was performed using the R Statistical Program (R Core Team, 2017) using the *nlme* package (Pinheiro et al., 2014). All analytical syntax and study data have been included as supplemental materials and are hosted in a repository managed by the corresponding author, see Author Note.
 
 ### Alone-/Own-Price Demand for EBPs
 
-The alone-and own-price demand for EBPs was evaluated using the ZBE model of operant demand. Model selection was performed using the levels of reported consumption across prices for all participants. The best performing model was then applied using a generalized nonlinear least squares approach [@RN5141] to evaluate the influence of various covariates (e.g., gender, income). Although measures of demand elasticity ($\alpha$) may be determined via differentiation [@RN5176], elasticity for each fitted model was determined by optimizing the peak levels of responding on the natural scale [@RN5193]. This quantity (*P~MAX~*) was then multiplied by the aggregate *Q~0~* to yield the peak expenditure on EBPs (*O~MAX~*) for both HTPTs.
+The alone- and own-price demand for EBPs was evaluated using the ZBE model of operant demand. Model selection was performed using the levels of reported consumption across prices for all participants. The best-performing model was then evaluated using a generalized nonlinear least squares and multilevel modeling approach (Pinheiro et al., 2014) to evaluate the influence of various covariates (e.g., gender, income). Although measures of demand elasticity ($\eta$) may be determined via differentiation (Gilroy et al., 2020), elasticity for each fitted model was determined by optimizing the peak levels of responding on the natural scale (Gilroy et al., 2021). This quantity ($P_{MAX}$) was then multiplied by the predicted levels of demand at this point ($\hat{Q}$) to yield the peak expenditure on EBPs ($O_{MAX}$) for both HTPTs.
 
 ### Cross-Price Demand for ATs
 
-Demand for EBPs and ATs was evaluated with two different strategies. First, the own-price demand for EBPs was evaluated in the same manner as the alone-price demand approach listed above. Second, @RN5110 previously provided a form of the Exponential model that evaluates the cross-price elasticity of demand for alternatives. However, this approach was not used in this evaluation. Rather, a Generalized Estimating Equation (GEE) was used to evaluate how various covariates beyond price contribute to the consumption (or non-consumption) of ATs.
+Demand for EBPs and ATs was evaluated with two different strategies. First, the own-price demand for EBPs was evaluated in the same manner as the alone-price demand approach listed above. Second, Hursh and Roma (2013) previously provided a form of the Exponential model that evaluates the cross-price elasticity of demand for alternatives. However, this approach was not used in this evaluation. Rather, a Generalized Estimating Equation (GEE) was used to evaluate how various covariates beyond price contribute to the consumption (or non-consumption) of ATs. The GEE procedure was selected over the Hursh and Roma (2013) approach for several pragmatic reasons. First, the GEE strategy is flexible and can be adapted to evaluate various factors (e.g., price, demographics) that may be related to reported consumption (i.e., covariates). Second, GEE is similar to multilevel models and is often applied in experiments to account for repeated measurements across individuals (Hardin, 2005; Kaplan & Koffarnus, 2019; Kaplan et al., 2020). Such an approach avoids issues associated with ordinary least squares regression, e.g., non-independence (DeHart & Kaplan, 2019; Kaplan et al., 2021). Third, similar to the methods proposed in Hursh and Roma (2013), the quantity regressed upon price in the GEE approach captures the direction and rate of changes in consumption as the price to consume EBPs changes. For instance, a weight of zero ascribed to Price would indicate no changes in AT consumption as prices to consume EBPs increased (i.e., services appear to be consumed independently). Alternatively, a non-zero value would indicate that the consumption of ATs changed in a particular direction in response to changes in the price for EBPs. Specifically, a positive value would indicate that the consumption of ATs increased while EBPs decreased (i.e., substitute) and a negative value would indicate the contrary (i.e., complement). Additionally, the fitted intercept represents an indicator of the AT’s baseline hedonic value. Lastly, the GEE approach fares better in cases where the span parameter *I* in the Hursh and Roma (2013) approaches zero, and the reciprocal nature of the *I* and $\beta$ parameters occasionally leads to highly inflated and questionable estimates.
 
-The GEE procedure was selected over the @RN5110 approach for several pragmatic reasons. First, the GEE strategy is flexible and can be adapted to evaluate various factors (e.g., price, demographics) that may be related to reported consumption (i.e., covariates). Second, GEE is similar to multilevel models and often applied in experiments to account for repeated measurements across individuals [@RN5216; @RN5217; @RN5218]. Such an approach avoids issues associated with ordinary least squares regression, e.g., non-independence [@RN1039; @RN5220]. Third, similar to the methods proposed in @RN5110, the quantity regressed upon price in the GEE approach captures direction and rate of changes in consumption as the price to consume EBPs change. For instance, a weight of zero ascribed to Price would indicate no changes in AT consumption as prices to consume EBPs increased (i.e., services appear to be consumed independently). Alternatively, a non-zero value would indicate that the consumption of ATs changed in a particular direction in response to changes in the price for EBPs. Specifically, a positive value would indicate that the consumption of ATs *increased* while EBPs *decreased* (i.e., substitute) and a negative value would indicate the contrary (i.e., complement). Additionally, the fitted intercept represents an indicator of the ATs baseline hedonic value. Lastly, the GEE approach fares better in cases where the span parameter *I* in the @RN5110 model approaches zero, and the reciprocal nature of the *I* and $\alpha$ parameters occasionally leads to highly inflated and questionable estimates.
+The cross-price demand for ATs was evaluated using GEE with an exchangeable correlation structure and model comparisons were performed using the QIC metric included in the *MuMin* R package (Barton, 2015). Briefly, the QIC value is an indicator frequently used to select the best-performing model and correlation structure when comparing various modeling options in GEE (Pan, 2001). As noted in Pan (2001), the QIC metric is derived from the Akaike Information Criterion (AIC; Akaike, 1974) but has been modified to support GEE because this procedure is not based on maximum likelihood estimation.
 
 # Results
 
 ## Alone-Price Demand for EBPs (EBP HTPT)
 
 ```{=tex}
-
 \begin{table}[]
 \caption{Participant Demographics}
 \begin{tabular}{lllll}
-\multicolumn{5}{c}{{\ul \textbf{Participant Demographics (n = 54)}}}                                                                             \\ \hline
+\multicolumn{5}{c}{{\ul \textbf{Participant Demographics (n = 63)}}}                                                                             \\ \hline
 \multicolumn{2}{l}{{\ul \textbf{Age (years)}}}      & \multicolumn{1}{l|}{{\ul \textbf{}}} & {\ul \textbf{Number of Children}} & {\ul \textbf{}} \\
-\multicolumn{2}{l}{Mean (SD)}                       & \multicolumn{1}{l|}{38.7 (9.6)}      & Median (Q1-Q3)                    & 2 (1-2)         \\
-\multicolumn{2}{l}{Median (Q1-Q3)}                  & \multicolumn{1}{l|}{38 (30.2-44.8)}  & Mean (SD)                         & 1.85 (0.96)     \\
+\multicolumn{2}{l}{Mean (SD)}                       & \multicolumn{1}{l|}{38.1 (9.52)}      & Median (Q1-Q3)                    & 2 (1-2)         \\
+\multicolumn{2}{l}{Median (Q1-Q3)}                  & \multicolumn{1}{l|}{38 (30-43.5)}  & Mean (SD)                         & 1.79 (0.92)     \\
 \multicolumn{2}{l}{{\ul \textbf{Sex}}}              & \multicolumn{1}{l|}{{\ul \textbf{}}} & {\ul \textbf{Education}}          &                 \\
-\multicolumn{2}{l}{Male}                            & \multicolumn{1}{l|}{28 (51.9\%)}     & High School graduate              & 11 (20.4\%)     \\
-\multicolumn{2}{l}{Female}                          & \multicolumn{1}{l|}{26 (48.1\%)}     & Some college but no degree        & 8 (14.8\%)      \\
-\multicolumn{2}{l}{{\ul \textbf{Income}}}           & \multicolumn{1}{l|}{{\ul \textbf{}}} & Associate degree                  & 10 (18.5\%)     \\
-\multicolumn{2}{l}{Q1}                              & \multicolumn{1}{l|}{30,250 USD}      & Bachelor’s degree                 & 21 (38.9\%)     \\
-\multicolumn{2}{l}{Median}                          & \multicolumn{1}{l|}{50,000 USD}      & Master’s degree                   & 4 (7.4\%)       \\
-\multicolumn{2}{l}{Q3}                              & \multicolumn{1}{l|}{82,500 USD}      & {\ul \textbf{Race/Ethnicity}}     &                 \\
-\multicolumn{2}{l}{{\ul \textbf{Behavior Concern}}} & \multicolumn{1}{l|}{}                & African-American                  & 3 (5.5\%)       \\
-\multicolumn{2}{l}{A little}                        & \multicolumn{1}{l|}{26 (48.1\%)}     & Asian                             & 7 (13.0\%)      \\
-\multicolumn{2}{l}{A moderate amount}               & \multicolumn{1}{l|}{11 (20.4\%)}     & Hispanic/Latinx                   & 1 (1.8\%)       \\
-\multicolumn{2}{l}{A lot}                           & \multicolumn{1}{l|}{12 (22.2\%)}     & White/Caucasian                   & 42 (77.8\%)     \\
-\multicolumn{2}{l}{A great deal}                    & \multicolumn{1}{l|}{5 (9.2\%)}       & Native American                   & 1 (1.8\%)       \\
+\multicolumn{2}{l}{Male}                            & \multicolumn{1}{l|}{28 (44.4\%)}     & High School graduate              & 13 (20.6\%)     \\
+\multicolumn{2}{l}{Female}                          & \multicolumn{1}{l|}{35 (55.6\%)}     & Some college but no degree        & 9 (14.3\%)      \\
+\multicolumn{2}{l}{{\ul \textbf{Income}}}           & \multicolumn{1}{l|}{{\ul \textbf{}}} & Associate degree                  & 10 (15.9\%)     \\
+\multicolumn{2}{l}{Q1}                              & \multicolumn{1}{l|}{30,000 USD}      & Bachelor’s degree                 & 27 (42.9\%)     \\
+\multicolumn{2}{l}{Median}                          & \multicolumn{1}{l|}{47,000 USD}      & Master’s degree                   & 4 (6.4\%)       \\
+\multicolumn{2}{l}{Q3}                              & \multicolumn{1}{l|}{75,000 USD}      & {\ul \textbf{Race/Ethnicity}}     &                 \\
+\multicolumn{2}{l}{{\ul \textbf{Behavior Concern}}} & \multicolumn{1}{l|}{}                & African-American                  & 6 (9.5\%)       \\
+\multicolumn{2}{l}{A little}                        & \multicolumn{1}{l|}{29 (46\%)}     & Asian                             & 7 (11.1\%)      \\
+\multicolumn{2}{l}{A moderate amount}               & \multicolumn{1}{l|}{14 (22.2\%)}     & Hispanic/Latinx                   & 1 (1.5\%)       \\
+\multicolumn{2}{l}{A lot}                           & \multicolumn{1}{l|}{14 (22.2\%)}     & White/Caucasian                   & 47 (74.6\%)     \\
+\multicolumn{2}{l}{A great deal}                    & \multicolumn{1}{l|}{6 (9.5\%)}       & Native American                   & 2 (3.2\%)       \\
 \multicolumn{2}{l}{{\ul \textbf{Marital Status}}}   & \multicolumn{1}{l|}{{\ul \textbf{}}} &                                   &                 \\
-\multicolumn{2}{l}{Single}                          & \multicolumn{1}{l|}{12 (22.2\%)}     &                                   &                 \\
-\multicolumn{2}{l}{Married}                         & \multicolumn{1}{l|}{39 (72.2\%)}     & \multicolumn{2}{l}{}                                \\
-\multicolumn{2}{l}{Divorced}                        & \multicolumn{1}{l|}{3 (5.5\%)}       & \multicolumn{2}{l}{}                               
+\multicolumn{2}{l}{Single}                          & \multicolumn{1}{l|}{14 (22.2\%)}     &                                   &                 \\
+\multicolumn{2}{l}{Married}                         & \multicolumn{1}{l|}{46 (73\%)}     & \multicolumn{2}{l}{}                                \\
+\multicolumn{2}{l}{Divorced}                        & \multicolumn{1}{l|}{3 (4.76\%)}       & \multicolumn{2}{l}{}                               
 \end{tabular}
 \label{tab:demos}
 \end{table}
-
 ```
 
-```{r rq1pre}
+```{r rq1pre, message=FALSE, warning=FALSE, message=FALSE, warning=FALSE}
 
-totalParticipants = nrow(mSurveyRes) + length(skipThese)
+totalParticipants = nrow(mSurveyRes) #+ length(skipThese)
 
 pureDemandFrame <- mSurveyRes %>%
   select(c(ResponseID,
@@ -301,7 +290,7 @@ zbeFit.full.closed <- nlmrt::wrapnls(
   formula = log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
     k +
     log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) *
-    (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * Price) - 1),
+    (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * q0 * Price) - 1),
   start   = list(q0    = max(pureDemandGroupFrame$ConsumptionAve),
                  k     = 1,
                  alpha = 0.01),
@@ -309,10 +298,10 @@ zbeFit.full.closed <- nlmrt::wrapnls(
 
 zbeFit.abbrev.closed <- nls(formula = log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
                               (log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10)) *
-                              (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * Price)),
+                              (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * q0 * Price)),
                             data = pureDemandFrame.long,
                             start   = list(q0    = max(pureDemandGroupFrame$ConsumptionAve),
-                                           alpha = 0.01))
+                                           alpha = 0.001))
 
 zbeFit.null.closed <- nls(
   formula = log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
@@ -350,6 +339,15 @@ pureDemandFrame.long <- pureDemandFrame.long %>%
   mutate(Education = factor(Education,
                      levels = c("No College", "<= 2 Yr College", ">= 4 Yr College" ))) %>%
   mutate(FamilySize = ifelse(numChildren > 1, "Multiple", "Single"))
+
+npar <- 5
+
+pureDemandFrame.long <- pureDemandFrame.long %>%
+  mutate(ResponseID = factor(ResponseID),
+         bxConcern = factor(bxConcern),
+         Sex = factor(Sex),
+         FamilySize = factor(FamilySize)) %>%
+  arrange(ResponseID, Price)
 
 out <- gnls(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
                   log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
@@ -393,18 +391,85 @@ dataProj$Projections <- log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
 dataProj$Work <- dataProj$Prices * tn$inverse(dataProj$Projections)
 
 pMax = dataProj[which.max(dataProj$Work),]
+
+deltaDf = df1 - df2
+
+### RE's helped
+
+out2 <- nlme(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
+             log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
+             k *
+             (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * Price) - 1),
+           data = pureDemandFrame.long,
+           na.action = na.omit,
+           fixed = list(q0 + alpha ~ Education + Sex + FamilySize,
+                        k ~ 1),
+           random = list(pdDiag(q0 + alpha ~ 1)),
+           start = list( fixed = c(q0 = rep(12, npar),
+                                   alpha = rep(0.001, npar),
+                                   k = 1)),
+           groups = ~ ResponseID,
+           weights = varPower(),
+           control = nlmeControl(msMaxIter = 200,
+                                 maxIter = 1000,
+                                 tolerance = 1,
+                                 nlsTol = 1,
+                                 apVar = F,
+                                 #minScale = .0001,
+                                 returnObject = TRUE,
+                                 opt = "nlm"))
+
+#anova(out, out2)
+
+# Code, but not run (cleaned data)
+# out2c <- nlme(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
+#                log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
+#                k *
+#                (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * Price) - 1),
+#              data = pureDemandFrame.long.cleaned,
+#              na.action = na.omit,
+#              fixed = list(q0 + alpha ~ Education + Sex + FamilySize,
+#                           k ~ 1),
+#              random = list(pdDiag(q0 + alpha ~ 1)),
+#              start = list( fixed = c(q0 = rep(12, npar),
+#                                      alpha = rep(0.001, npar),
+#                                      k = 1)),
+#              groups = ~ ResponseID,
+#              weights = varPower(),
+#              control = nlmeControl(msMaxIter = 200,
+#                                    maxIter = 1000,
+#                                    tolerance = 1,
+#                                    nlsTol = 1,
+#                                    apVar = F,
+#                                    #minScale = .0001,
+#                                    returnObject = TRUE,
+#                                    opt = "nlm"))
+
+# Doesn't hurt to use full set
+
 ```
 
-```{r rq1plot, fig.cap="Alone-Price Demand for Evidence-based Practices", fig.scap="Plots here illustrate the modeled levels of Alone-Price demand for Evidence-based Practices across gender, family size, and degree of education. Demand is plotted in IHS-IHS coordinates to reveal how relative increases in price are associated with relative decreases in consumption.", fig.height=4.5, fig.width=8.5}
+```{r rq1plot, fig.cap="Alone-Price Demand for Evidence-based Practices", fig.scap="Plots here illustrate the modeled levels of Alone-Price demand for Evidence-based Practices across gender, family size, and degree of education. Demand is plotted in IHS-IHS coordinates to reveal how relative increases in price are associated with relative decreases in consumption.", fig.height=4.5, fig.width=8.5, message=FALSE, warning=FALSE}
+
+pureDemandFrame.long$pred  <- tn$inverse(predict(out2, level = 0))
+pureDemandFrame.long$predi <- tn$inverse(predict(out2, level = 1))
+
+#library(extrafont)
+#loadfonts(device='win')
 
 pureDemandFrame.long = pureDemandFrame.long %>%
   rename(`Family Size` = FamilySize) %>%
   rename(`Gender` = Sex)
 
-plot <- ggplot(pureDemandFrame.long, aes(Price, pred,
-                                 lty = `Gender`,
-                                 color = `Family Size`)) +
-  geom_line() +
+plot <- ggplot(pureDemandFrame.long,
+               aes(Price, pred,
+                   lty = `Family Size`)) +
+  geom_line(size = 1) +
+  geom_line(mapping = aes(Price, predi,
+                          lty = `Family Size`,
+                          group = ResponseID),
+            size  = 0.8,
+            alpha = 0.25) +
   scale_x_continuous(breaks = c(50, 100, 500, 1000, 5000),
                      labels = c(50, 100, 500, 1000, 5000),
                      limits = c(50, 5000),
@@ -414,35 +479,38 @@ plot <- ggplot(pureDemandFrame.long, aes(Price, pred,
                      limits = c(0, 20),
                      trans = tn) +
   theme_bw() +
-  scale_color_nejm() +
+  scale_color_grey() +
   xlab("Price/Hour of Treatment") +
   ylab("Treatment Consumption (Hours)") +
-  theme(legend.position = "bottom",
+  theme(legend.position  = "bottom",
         strip.background = element_blank(),
-        strip.text = element_text(colour = 'black',
-                                  face = 'bold'),
-        #text=element_text(family="Times New Roman", size=12),
-        panel.spacing = unit(1.25, "lines"),
-        axis.title.y = element_text(margin = margin(t = 0,
-                                                    r = 0,
-                                                    b = 0,
-                                                    l = 0)),
-        axis.title.x = element_text(margin = margin(t = 10,
-                                                    r = 0,
-                                                    b = 0,
-                                                    l = 0))) +
-  facet_wrap(~Education, ncol = 3, scales = "free") +
+        strip.text       = element_text(colour = 'black',
+                                        face   = 'bold'),
+        #text             = element_text(family = "Times New Roman",
+        #                                size   = 10),
+        panel.spacing    = unit(1.25, "lines"),
+        axis.title.y     = element_text(margin = margin(t = 0,
+                                                        r = 0,
+                                                        b = 0,
+                                                        l = 0)),
+        axis.title.x     = element_text(margin = margin(t = 10,
+                                                        r = 0,
+                                                        b = 0,
+                                                        l = 0))) +
+  facet_wrap(Gender ~ Education,
+             ncol = 3,
+             scales = "free") +
   beezdemand::theme_apa()
 
 plot
 
 ```
 
-A total of `r totalParticipants` participants completed the survey and `r nrow(mSurveyRes)` met all criteria for systematic purchase data across both HTPTs (`r round((nrow(mSurveyRes)/totalParticipants)*100, 2) `%). The demographics of included participants are listed in \autoref{tab:demos}. The alone-price demand for EBPs using mean consumption levels was evaluated using each of the ZBE models prior to analysis. Model comparisons revealed that the 3-parameter ZBE model better characterized the data than the two-parameter (*F[`r df1 - df2`, `r df2`]*=`r round(Fval,2)`, `r scales::pvalue(pval, add_p = TRUE)`) and one-parameter alternatives (*F[`r df1_2 - df2_2`, `r df2_2`]*=`r round(Fval_2,2)`, `r scales::pvalue(pval_2, add_p = TRUE)`). The 3-parameter form of the ZBE model was used to estimate *Q~0~* and $\alpha$ across reported levels of education (no college, some/junior college, 4+ year degree), gender (male, female), and family size (single, multiple children). The separate span parameter was estimated globally, and thus, shared across all participants. The results of this regression are listed in \autoref{tab:models} and displayed in \autoref{fig:rq1plot}. Model fits indicated a main effect for education, whereby caregivers with a four-year college degree or more reported significantly lower baseline levels of EBP consumption than individuals without a college education (*Q~0~ [Education \>= 4 Yr. College]*=`r coef(summary(out))["q0.Education>= 4 Yr College", "Value"]`, *T*=`r coef(summary(out))["q0.Education>= 4 Yr College", "t-value"]`, `r scales::pvalue(coef(summary(out))["q0.Education>= 4 Yr College", "p-value"], add_p = TRUE, accuracy = 0.05)`). Population-level predictions revealed a peak expenditure (*O~MAX~*) of `r round(which.max(dataProj$Work), 2)` USD towards EBPs, which occurred at a price (*P~MAX~*) of `r round(pMax[1], 2)` USD per unit hour of therapy.
+A total of `r totalParticipants` participants completed the survey and 54 met all criteria for systematic purchase data across both HTPTs (`r round((nrow(mSurveyRes)/totalParticipants)*100, 2)`%). The demographics of included participants are listed in \autoref{tab:demos}. The alone-price demand for EBPs using mean consumption levels was evaluated using each of the ZBE models prior to analysis. Model comparisons revealed that the 3-parameter ZBE model better characterized the data than the two-parameter (*F[`r deltaDf`,`r df2`]*=`r round(Fval,2)`, `r scales::pvalue(pval, add_p = TRUE)`) and one-parameter alternatives (*F[`r df1_2 - df2_2`, `r df2_2`]*=`r round(Fval_2,2)`, `r scales::pvalue(pval_2, add_p = TRUE)`). The 3-parameter form of the ZBE model was used to estimate $Q_0$ and $\alpha$ across reported levels of education (no college, some/junior college, 4+ year degree), gender (male, female), and family size (single, multiple children). The separate span parameter was estimated globally, and thus, shared across all participants. The analysis was performed with both the full data set and the portion of the data set that met all criteria for systematic purchase data. There were no meaningful differences in interpretation and the results of the regression with the full data set are listed in Table 2 and displayed in Figure 1. Model fits indicated a main effect for the number of children, whereby caregivers caring for a single child reported significantly higher baseline levels of EBP consumption than others with multiple children ($Q_0 [Single]$ = 2.949, *T* = 2.156, *p* < .05). Population-level predictions revealed a peak expenditure ($O_{MAX}$) of 1,007 USD towards EBPs, which occurred at a price ($P_{MAX}$) of 371.11 USD per unit hour of therapy.
 
 ## Own-Price Demand for EBPs (EBP/AT HTPT)
 
-```{r rq2pre}
+```{r rq2pre, message=FALSE, warning=FALSE}
 
 crossPriceABA <- mSurveyRes %>%
   select(c(ResponseID,
@@ -496,7 +564,7 @@ zbeFit.full.closed <- nlmrt::wrapnls(
   formula = log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
     k +
     log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) *
-    (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * Price) - 1),
+    (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * q0 * Price) - 1),
   start   = list(q0    = max(crossPriceDemandGroupFrame$ConsumptionAve),
                  k     = 1,
                  alpha = 0.01),
@@ -504,10 +572,10 @@ zbeFit.full.closed <- nlmrt::wrapnls(
 
 zbeFit.abbrev.closed <- nls(formula = log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
                               (log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10)) *
-                              (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * Price)),
+                              (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * q0 * Price)),
                             data = crossPriceABA.long,
                             start   = list(q0    = max(crossPriceDemandGroupFrame$ConsumptionAve),
-                                           alpha = 0.01))
+                                           alpha = 0.0001))
 
 zbeFit.null.closed <- nls(
   formula = log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
@@ -588,18 +656,99 @@ dataProj$Work <- dataProj$Prices * tn$inverse(dataProj$Projections)
 
 pMax = dataProj[which.max(dataProj$Work),]
 
+###
+
+npar <- 5
+
+out <- gnls(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
+              log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
+              k *
+              (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * Price) - 1),
+            data = crossPriceABA.long,
+            na.action = na.omit,
+            params = list(q0 + alpha ~ Education + Sex + FamilySize, k ~ 1),
+            start = list( fixed = c(q0 = rep(12, npar),
+                                    alpha = rep(0.001, npar),
+                                    k = 1)),
+            weights = varPower(),
+            control = gnlsControl(msMaxIter = 200,
+                                  maxIter = 300,
+                                  tolerance = 1,
+                                  nlsTol = 1,
+                                  apVar = F,
+                                  #minScale = .0001,
+                                  returnObject = TRUE,
+                                  opt = "optim"))
+
+crossPriceABA.long$FamilySize = as.factor(crossPriceABA.long$FamilySize)
+crossPriceABA.long$Sex = as.factor(crossPriceABA.long$Sex)
+
+out2 <- nlme(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
+               log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
+               k *
+               (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * Price) - 1),
+             data = crossPriceABA.long,
+             na.action = na.omit,
+             fixed = list(q0 + alpha ~ Education + Sex + FamilySize,
+                          k ~ 1),
+             random = list(pdDiag(q0 + alpha ~ 1)),
+             start = list( fixed = c(q0 = rep(12, npar),
+                                     alpha = rep(0.001, npar),
+                                     k = 1)),
+             groups = ~ ResponseID,
+             weights = varPower(),
+             control = nlmeControl(msMaxIter = 200,
+                                   maxIter = 1000,
+                                   tolerance = 1,
+                                   nlsTol = 1,
+                                   apVar = F,
+                                   #minScale = .0001,
+                                   returnObject = TRUE,
+                                   opt = "nlm"))
+
+# Code, not run (no diff w/ full set)
+# out2c <- nlme(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
+#                log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
+#                k *
+#                (exp(((-alpha)/(log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10))) * Price) - 1),
+#              data = crossPriceABA.long.cleaned,
+#              na.action = na.omit,
+#              fixed = list(q0 + alpha ~ Education + Sex + FamilySize,
+#                           k ~ 1),
+#              random = list(pdDiag(q0 + alpha ~ 1)),
+#              start = list( fixed = c(q0 = rep(12, npar),
+#                                      alpha = rep(0.001, npar),
+#                                      k = 1)),
+#              groups = ~ ResponseID,
+#              weights = varPower(),
+#              control = nlmeControl(msMaxIter = 200,
+#                                    maxIter = 1000,
+#                                    tolerance = 1,
+#                                    nlsTol = 1,
+#                                    apVar = F,
+#                                    #minScale = .0001,
+#                                    returnObject = TRUE,
+#                                    opt = "nlm"))
+
+crossPriceABA.long$pred  <- tn$inverse(predict(out2, level = 0))
+crossPriceABA.long$predi <- tn$inverse(predict(out2, level = 1))
+
 ```
 
-```{r rq2plot, fig.cap="Own-Price Demand for Evidence-based Practices", fig.scap="Plots depicted here show the Own-Price demand for Evidence-based Practices across gender, family size, and degree of education.", fig.height=4.5, fig.width=8.5}
+```{r rq2plot, fig.cap="Own-Price Demand for Evidence-based Practices", fig.scap="Plots depicted here show the Own-Price demand for Evidence-based Practices across gender, family size, and degree of education.", fig.height=4.5, fig.width=8.5, message=FALSE, warning=FALSE}
 
 crossPriceABA.long = crossPriceABA.long %>%
   rename(`Family Size` = FamilySize) %>%
   rename(`Gender` = Sex)
 
 plot <- ggplot(crossPriceABA.long, aes(Price, pred,
-                                         lty = `Gender`,
-                                         color = `Family Size`)) +
-  geom_line() +
+                                       lty = `Family Size`)) +
+  geom_line(size = 1) +
+  geom_line(mapping = aes(Price, predi,
+                          lty = `Family Size`,
+                          group = ResponseID),
+            size  = 0.8,
+            alpha = 0.25) +
   scale_x_continuous(breaks = c(50, 100, 500, 1000, 5000),
                      labels = c(50, 100, 500, 1000, 5000),
                      limits = c(50, 5000),
@@ -609,35 +758,38 @@ plot <- ggplot(crossPriceABA.long, aes(Price, pred,
                      limits = c(0, 20),
                      trans = tn) +
   theme_bw() +
-  scale_color_nejm() +
+  scale_color_grey() +
   xlab("Price/Hour of Treatment") +
   ylab("Treatment Consumption (Hours)") +
-  theme(legend.position = "bottom",
+  theme(legend.position  = "bottom",
         strip.background = element_blank(),
-        strip.text = element_text(colour = 'black',
-                                  face = 'bold'),
-        #text=element_text(family="Times New Roman", size=12),
-        panel.spacing = unit(1.25, "lines"),
-        axis.title.y = element_text(margin = margin(t = 0,
-                                                    r = 0,
-                                                    b = 0,
-                                                    l = 0)),
-        axis.title.x = element_text(margin = margin(t = 10,
-                                                    r = 0,
-                                                    b = 0,
-                                                    l = 0))) +
-  facet_wrap(~Education, ncol = 3, scales = "free") +
+        strip.text       = element_text(colour = 'black',
+                                        face   = 'bold'),
+        # text             = element_text(family = "Times New Roman",
+        #                                 size   = 10),
+        panel.spacing    = unit(1.25, "lines"),
+        axis.title.y     = element_text(margin = margin(t = 0,
+                                                        r = 0,
+                                                        b = 0,
+                                                        l = 0)),
+        axis.title.x     = element_text(margin = margin(t = 10,
+                                                        r = 0,
+                                                        b = 0,
+                                                        l = 0))) +
+  facet_wrap(Gender ~ Education,
+             ncol = 3,
+             scales = "free") +
   beezdemand::theme_apa()
 
 plot
 
 ```
 
-Model comparisons revealed that the 3-parameter form of the ZBE model better characterized own-price demand for EBPs than the two-parameter (*F[`r df1 - df2`, `r df2`]*=`r round(Fval,2)`, `r scales::pvalue(pval, add_p = TRUE)`) and one-parameter alternatives (*F[`r df1_2 - df2_2`, `r df2_2`]*=`r round(Fval_2,2)`, `r scales::pvalue(pval_2, add_p = TRUE)`). The 3-parameter form of the ZBE model was used to estimate *Q~0~*, $\alpha$, and *k* parameters in the same manner as in the Alone-Price demand for EBPs. The results of this regression are listed in \autoref{tab:models} and displayed in \autoref{fig:rq2plot}. Model fits indicated that men demonstrated higher baseline levels of EBP consumption than women when an alternative therapy was available (*Q~0~ [Male]* = `r coef(summary(out2))["q0.SexMale", "Value"]`, *T* = `r coef(summary(out2))["q0.SexMale", "t-value"]`, `r coef(summary(out2))["q0.SexMale", "p-value"]`). However, men demonstrated greater sensitivity to changes in prices than women ($\alpha$ *[Male]* = `r coef(summary(out2))["alpha.SexMale", "Value"]`, *T* = `r coef(summary(out2))["alpha.SexMale", "t-value"]`, `r coef(summary(out2))["alpha.SexMale", "p-value"]`). Further, results indicated that caregivers of a single child demonstrated greater baseline levels of EBP consumption than those who cared for multiple children (*Q~0~ [Single]* = `r coef(summary(out2))["q0.FamilySizeSingle", "Value"]`, *T* = `r coef(summary(out2))["q0.FamilySizeSingle", "t-value"]`, `r coef(summary(out2))["q0.FamilySizeSingle", "p-value"]`). Population-level predictions revealed a peak expenditure (*O~MAX~*) of `r round(which.max(dataProj$Work), 2)` USD towards EBPs, which occurred at a price (*P~MAX~*) of `r round(pMax[1], 2)` USD per unit hour of therapy.
+Model comparisons revealed that the 3-parameter form of the ZBE model better characterized own-price demand for EBPs than the two-parameter (F[`r round(df1 - df2)`, `r df2`] =`r round(Fval,2)`, `r scales::pvalue(pval, add_p = TRUE)`) and one-parameter alternatives (*F[`r df1_2 - df2_2`, `r df2_2`]*=`r round(Fval_2,2)`, `r scales::pvalue(pval_2, add_p = TRUE)`). The 3-parameter form of the ZBE model was used to estimate $Q_0$, $\alpha$, and *k* parameters in the same manner as in the Alone-Price demand for EBPs. Similar to the previous analysis, the full data set was analyzed because the inclusion of non-systematic purchase task data did not affect the conclusions supported by the model. The results of this regression are listed in Table 2 and displayed in Figure 2. Model fits revealed a main effect for the number of children, whereby caregivers caring for a single child reported significantly higher baseline levels of EBP consumption than others with multiple children ($Q_0 [Single]$ = 2.224, *T* = 2.03, p < .05). Population-level predictions revealed a peak expenditure ($O_{MAX}$) of 1094 USD towards EBPs, which occurred at a price ($P_{MAX}$) of 427.94 USD per unit hour of therapy.
 
 ## Cross-Price Demand for ATs (EBP/AT HTPT)
 
-```{r rq3pre}
+```{r rq3pre, message=FALSE, warning=FALSE}
 
 crossPricePAT <- mSurveyRes %>%
   select(c(ResponseID,
@@ -791,48 +943,127 @@ plotFrame <- emmip(fit.6, ~ Price,
 
 ```
 
-```{r rq3plot, fig.cap="Cross-Price Demand for Alternative Therapy", fig.scap="The figure illustrated here depicts the levels of AT consumption as the price to consume EBPs increases. The results modeled here are indicative of a substitutive relationship, whereby increases in the price to consume EBPs corresponded with an increase in the levels of AT consumed.", fig.height=4.5, fig.width=8.5}
+```{r rq3plot, fig.cap="Cross-Price Demand for Alternative Therapy", fig.scap="The figure illustrated here depicts the levels of AT consumption as the price to consume EBPs increases. The results modeled here are indicative of a substitutive relationship, whereby increases in the price to consume EBPs corresponded with an increase in the levels of AT consumed.", fig.height=4.5, fig.width=8.5, message=FALSE, warning=FALSE}
 
-plot <- ggplot(plotFrame, aes(xvar, yvar)) +
-  geom_line() +
-  geom_errorbar(aes(ymin = LCL,
-                    ymax = UCL), width = 0.05,
-                position = position_dodge(.9)) +
+geeFittingFrame$Price = factor(geeFittingFrame$Price,
+                               levels = c(50,
+                                          100,
+                                          150,
+                                          200,
+                                          250,
+                                          300,
+                                          400,
+                                          500,
+                                          750,
+                                          1000,
+                                          2000,
+                                          3000,
+                                          5000),
+                               labels = c(50,
+                                          100,
+                                          150,
+                                          200,
+                                          250,
+                                          300,
+                                          400,
+                                          500,
+                                          750,
+                                          1000,
+                                          2000,
+                                          3000,
+                                          5000))
+
+pos = position_jitter(0.25, 0.025)
+
+geeFittingFrame$Price_J = jitter(as.numeric(as.character(geeFittingFrame$Price)),
+                                 factor = 1)
+geeFittingFrame$Consumption_J = jitter(as.numeric(geeFittingFrame$Consumption),
+                                       factor = 1)
+
+plot = ggplot(geeFittingFrame, aes(Price_J, Consumption_J, group = NewID)) +
+  geom_line(alpha = 0.125) +
+  geom_point(alpha = 0.125) +
   scale_x_continuous(breaks = c(50, 100, 500, 1000, 5000),
                      labels = c(50, 100, 500, 1000, 5000),
                      limits = c(40, 6000),
                      trans = tn) +
   scale_y_continuous(breaks = c(0, 1, 5, 10, 20),
                      labels = c(0, 1, 5, 10, 20),
-                     limits = c(0, 20),
+                     limits = c(-0.25, 22),
                      trans = tn) +
+  geom_line(data     = plotFrame,
+            mapping  = aes(x = xvar,
+                           y = yvar,
+                           group = 1),
+            size     = 1.25,
+            inherit.aes = FALSE) +
+  geom_errorbar(data     = plotFrame,
+                mapping  = aes(ymin = LCL,
+                               ymax = UCL,
+                               x    = xvar,
+                               y    = yvar),
+                width    = 0.05,
+                inherit.aes = FALSE) +
   theme_bw() +
-  scale_color_nejm() +
   xlab("Price/Hour of Evidence based Treatment") +
   ylab("'Alternative' Treatment Consumption (Hours)") +
-  theme(legend.position = "bottom",
+  theme(legend.position  = "bottom",
         strip.background = element_blank(),
-        strip.text = element_text(colour = 'black',
-                                  face = 'bold'),
-        #text=element_text(family="Times New Roman", size=12),
-        panel.spacing = unit(1.25, "lines"),
-        axis.title.y = element_text(margin = margin(t = 0,
-                                                    r = 0,
-                                                    b = 0,
-                                                    l = 0)),
-        axis.title.x = element_text(margin = margin(t = 10,
-                                                    r = 0,
-                                                    b = 0,
-                                                    l = 0))) +
+        strip.text       = element_text(colour = 'black',
+                                        face   = 'bold'),
+        text             = element_text(family = "Times New Roman",
+                                        size   = 12),
+        panel.spacing    = unit(1.25, "lines"),
+        axis.title.y     = element_text(margin = margin(t = 0,
+                                                        r = 3,
+                                                        b = 0,
+                                                        l = 1)),
+        axis.title.x     = element_text(margin = margin(t = 10,
+                                                        r = 0,
+                                                        b = 0,
+                                                        l = 0))) +
   beezdemand::theme_apa()
 
 plot
 
+# plot <- ggplot(plotFrame, aes(xvar, yvar)) +
+#   geom_line() +
+#   geom_errorbar(aes(ymin = LCL,
+#                     ymax = UCL), width = 0.05,
+#                 position = position_dodge(.9)) +
+#   scale_x_continuous(breaks = c(50, 100, 500, 1000, 5000),
+#                      labels = c(50, 100, 500, 1000, 5000),
+#                      limits = c(40, 6000),
+#                      trans = tn) +
+#   scale_y_continuous(breaks = c(0, 1, 5, 10, 20),
+#                      labels = c(0, 1, 5, 10, 20),
+#                      limits = c(0, 20),
+#                      trans = tn) +
+#   theme_bw() +
+#   scale_color_nejm() +
+#   xlab("Price/Hour of Evidence based Treatment") +
+#   ylab("'Alternative' Treatment Consumption (Hours)") +
+#   theme(legend.position = "bottom",
+#         strip.background = element_blank(),
+#         strip.text = element_text(colour = 'black',
+#                                   face = 'bold'),
+#         #text=element_text(family="Times New Roman", size=12),
+#         panel.spacing = unit(1.25, "lines"),
+#         axis.title.y = element_text(margin = margin(t = 0,
+#                                                     r = 0,
+#                                                     b = 0,
+#                                                     l = 0)),
+#         axis.title.x = element_text(margin = margin(t = 10,
+#                                                     r = 0,
+#                                                     b = 0,
+#                                                     l = 0))) +
+#   beezdemand::theme_apa()
+# 
+# plot
+
 ```
 
-The cross-price demand for ATs was evaluated using GEE with an exchangeable correlation structure and model comparisons were performed using the QIC metric included in the *MuMin* R package [@RN5190]. Briefly, the QIC value is an indicator frequently used to select the best performing model and correlation structure when comparing various modeling options in GEE [@RN5215]. As noted in @RN5215, the QIC metric is derived from the Akaike Information Criterion (AIC) [@RN817] but has been modified to support GEE because this procedure is not based on Maximum Likelihood Estimation.
-
-The GEE was applied using the *geeglm* method included in the *geepack* R package [@RN5183]. Factors in the GEE fitting included Price (of EBP), Gender (Men, Women), Family Size (Single, Multiple Children), and Education (i.e., No College, \<= 2 Yr College, \>= 4 Yr College) and all possible interactions. Model selection using QIC favored the model with Price as the sole factor associated with the consumption of ATs ($\alpha$ [\*Price]\* = `r coef(summary(fit.6))["Price", "Estimate"]`, *W* = `r round(coef(summary(fit.6))["Price", "Estimate"], 2)`, `r scales::pvalue(coef(summary(fit.6))["Price", "Pr(>|W|)"], add_p = TRUE)`. Overall, results indicated that caregivers substituted ATs for EBPs as the price to consume EBPs increased. No other demographic factors were significantly related to levels of AT consumption.
+The GEE was applied using the *geeglm* method included in the geepack R package (Halekoh et al., 2006). Factors in the GEE fitting included Price (of EBP), Gender (Men, Women), Family Size (Single, Multiple Children), and Education (i.e., No College, <= 2 Yr College, >= 4 Yr College) and all possible interactions. Model selection using QIC favored the model with Price as the sole factor associated with the consumption of ATs ($\beta [Price]$  = 0.001, *W* = 26.2, *p* < .0001). That is, no demographic factors were significantly related to levels of AT consumption. The results of this analysis are illustrated in Figure 3. The results of this analysis indicated that caregivers, overall, demonstrated a substitutive relationship between EBPs and ATs. Specifically, caregivers overall indicated that they would consume higher levels of ATs if they were unable to maintain their baseline level of EBP consumption.
 
 ```{r rqxtable, results='asis'}
 
@@ -850,19 +1081,19 @@ texreg(modelList,
 
 # Discussion
 
-Terms such as "evidence-based" and "empirically-supported" are labels used to identify therapies and approaches found to be efficacious or at least probably efficacious [@RN5119]. These designations aid in communicating the relative efficacy of specific treatments as well as in advocating for the use of these approaches over dubious alternatives. However, despite an established body of evidence supporting EBPs, fad and pseudoscientific therapies maintain high levels of adoption. Indeed, certain "alternative" therapies have persisted for decades despite a consistent lack of support, and worse, those clearly discredited following careful scientific study have re-emerged at later times in re-branded forms.[^3] Given the relatively limited value associated with being labeled as having scientific evidence (i.e., evidence-based), this naturally prompts further inquiry into the factors that influence consumer choice for treatment.
+Terms such as “evidence-based” and “empirically-supported” are labels used to identify therapies and approaches found to be efficacious or at least probably efficacious (Chambless et al., 1998). These designations aid in communicating the relative efficacy of specific treatments as well as in advocating for the use of these approaches over dubious alternatives. However, despite an established body of evidence supporting EBPs, ‘fad’ and pseudoscientific therapies maintain high levels of adoption. Indeed, certain “alternative” therapies have persisted for decades despite a consistent lack of support, and worse, those discredited following careful scientific study have re-emerged at later times in re-branded forms.[^2] Given the relatively limited value associated with being labeled as having scientific evidence (i.e., evidence-based), this prompts further inquiry into the factors that influence consumer choice for treatment.
 
-[^3]: Interested readers should consult Travers, J. C., Ayers, K., Simpson, R. L., & Crutchfield, S. (2016). Fad, pseudoscientific, and controversial interventions. In *Early intervention for young children with autism spectrum disorder* (pp. 257-293). Springer. for a review of the decline and return of Facilitated Communication.
+[^2]: Interested readers should consult Travers, J. C., Ayers, K., Simpson, R. L., & Crutchfield, S. (2016). Fad, pseudoscientific, and controversial interventions. In *Early intervention for young children with autism spectrum disorder* (pp. 257-293). Springer. for a review of the decline and return of Facilitated Communication.
 
-This study applied an operant behavioral economic interpretation of treatment choice when multiple behavior therapies were concurrently available to caregivers. The approach used here expands upon earlier work in that it permits researchers to evaluate how certain forms of treatment consumption relate to one another. Results indicated that caregivers regularly and overwhelmingly reported that they would pursue "alternative" therapies as functional substitutes for EBPs, despite being told explicitly that the "alternative" lacked credible evidence that it would provide benefit. Even further, participants were told to imagine that their family doctor actively advocated against it. Throughout the experiment, the scientific evidence of efficacy did not emerge as a factor that swayed consumers from "alternative" treatments.
+This experimental preliminary study applied an Operant Behavioral Economic interpretation of treatment choice when multiple behavior therapies were concurrently available to caregivers. The approach used here is novel in that it permits researchers to evaluate how certain forms of treatment consumption relate to one another. Preliminary results indicated that caregivers regularly and overwhelmingly reported that they would pursue “alternative” therapies as functional substitutes for EBPs, despite being told explicitly that the “alternative” lacked credible evidence that it would provide benefit. Even further, participants were told to imagine that their child’s physician actively advocated against it. Throughout the experiment, scientific evidence of efficacy did not emerge as a factor that swayed consumers from “alternative” treatments.
 
-Although unsettling, this pattern of consumption (i.e., substituting ATs with EBPs) is consistent with an Operant Behavioral Economic view of individual choice. That is, findings from behavioral science have found that caregivers rarely commit to the most optimal prospects and instead make choices based on delay to treatment effects [@RN5109; @RN874] or prior treatment experience [@RN873]. That is, scientific evidence has rarely emerged as the sole factor that drives treatment-related choices made by caregivers. Although studies such as @RN873, @RN5109, and @RN874 have arrived at similar findings, these works have applied either a descriptive or a discounting-based approach to evaluate this manner of decision-making. Here, we advocate for the use of the operant demand framework over other methodologies for several reasons. First, this approach is well-suited to represent the complex and rapidly changing landscape of services available to consumers. Results indicated that the overall demand for EBPs substantially decreased when just one AT was available, whereas it is plausible that this trend might be exacerbated when multiple ATs are concurrently available. The approach used here can be extended to evaluate overall patterns and trends in service use when a variety of treatment approaches are available. Second, demand curve analyses support the evaluation of consumption as a function of price (as well as other relevant factors), and results from these analyses may be useful in guiding policy [@RN5110]. For example, the demand methodology could be used to evaluate which pricing arrangements most support the consumption of efficacious treatments (i.e., EBPs) and discourage the use of unsafe, ineffective, and predatory alternatives (i.e., ATs). Findings here indicated that the availability of a single fad or "alternative" treatment substantially decreased the baseline consumption of EBPs (\~11 units \@ 50 USD/hr) when compared to when EBPs were available alone (\~13 units \@ 50 USD/hr). This empirical approach to public policy has been demonstrated in the use of targeted taxes to discourage unhealthy choices, such as ultraviolent tanning [@RN5122] and cigarette use [@RN5128; @RN559], and encourage sustainable practices (e.g., "green" consumerism) [@RN476]. However, it warrants noting that further refinement of this approach will be necessary before such an approach could inform healthcare policies. That is, the purpose of the current study was an initial investigation into whether the demand and substitution framework could be applied to the societally important issue of treatment consumption. To move towards more direct policy implications, future tasks would need to use more precise pricing structures, use budgets tailored to individual households, and use more specific treatments with information reflective of what is normally provided to caregivers.
+Although unsettling, this pattern of consumption (i.e., substituting ATs with EBPs) is consistent with an Operant Behavioral Economic view of individual choice. That is, findings from behavioral science have found that caregivers rarely commit to the most optimal prospects and instead make choices based on delay to treatment effects (Call, Reavis, et al., 2015; Gilroy & Kaplan, 2020) or prior treatment experience (Call, Delfs, et al., 2015). That is, scientific evidence has rarely emerged as the primary factor that drives treatment-related choices made by caregivers. Although studies such as Call, Delfs, et al. (2015), Gilroy and Kaplan (2020), and Call, Reavis, et al. (2015) have arrived at similar findings, these works have applied either a descriptive or a discounting-based approach to evaluate this manner of decision-making. Here, we advocate for the use of the Operant Demand Framework over other methodologies for several reasons. First, this approach is well-suited to represent the complex and rapidly changing landscape of services available to consumers. Results indicated that the overall demand for EBPs decreased by a considerable 30% when just one AT was available, and it is plausible that this difference might be exacerbated when multiple ATs are concurrently available. The approach used here can be extended to evaluate overall patterns and trends in service use when a variety of treatment approaches are available. Second, demand curve analyses support the evaluation of consumption as a function of price (as well as other relevant factors), and results from these analyses may be useful in guiding future policy related to behavior therapies (Hursh & Roma, 2013). For example, the demand methodology could be used to evaluate which pricing arrangements most support the consumption of efficacious treatments (i.e., EBPs) and discourage the use of unsafe, ineffective, and predatory alternatives (i.e., ATs). Findings here indicated that the availability of a single fad or “alternative” treatment substantially decreased the baseline consumption of EBPs (~12 units @ 50 USD/hr) when compared to when EBPs were available alone (~17 units @ 50 USD/hr). This empirical approach to public policy has been demonstrated in the use of targeted taxes to discourage unhealthy choices, such as ultraviolent tanning (Reed et al., 2016) and cigarette use (MacKillop et al., 2012; Pope et al., 2020), and to encourage sustainable practices (e.g., "green" consumerism, Kaplan et al., 2018). However, it warrants noting that further refinement of this approach will be necessary before such an approach would be helpful to inform healthcare policies. That is, the purpose of the current study was an initial investigation into whether the demand framework could be applied to the societally important issue of treatment consumption and subsequent works in this area will need to expand on this application. To move towards more direct policy implications, future purchase tasks would need to use more informed pricing structures, budgets tailored to individual households, and additional treatment offerings that are more representative of what is currently marketed to caregivers.
 
-Findings from this study naturally evoke questions regarding how to advocate most effectively for EBPs and discourage the use of unproven, and potentially unsafe, ATs. Current attempts to educate or persuade caregivers against ATs focus heavily on consulting the research literature; however, reviews of evidence alone appear unlikely to convince caregivers to allocate their resources (or even a proportion of resources) towards EBPs. As most clinicians would likely attest, advocating for EBPs is not so simple as stating "...but the research says" and future attempts to advocate for EBPs warrant a more sophisticated and targeted approach. Indeed, emerging methodologies such as Consumer Behavior Analysis [@RN404; @RN5113; @RN625] hold particular promise in evaluating how multiple dimensions of behavioral contingencies each influence the consumption of good and services.
+Findings from this study evoke questions regarding how to advocate most effectively for EBPs and discourage the use of unproven, and potentially unsafe, ATs. Current attempts to educate or persuade caregivers against ATs focus heavily on consulting the research literature; however, reviews of evidence alone appear unlikely to convince caregivers to allocate their resources (or even a proportion of resources) towards EBPs. As most clinicians would likely attest, advocating for EBPs is not so simple as stating “…but the research says” and future attempts to advocate for EBPs warrant a more sophisticated, targeted approach based on principles of reinforcement. Indeed, emerging methodologies such as Consumer Behavior Analysis (Foxall, 2017; Foxall et al., 2007; Foxall et al., 2010) hold particular promise in evaluating how multiple dimensions of behavioral contingencies jointly influence the consumption of specific goods and services.
 
 ## Limitations
 
-Although the interpretation provided here is consistent with behavioral economic concepts and methods, several limitations warrant noting. First, the tasks presented here were hypothetical and to what degree these results correspond with how caregivers would spend actual time and resources is unknown. Although hypothetical, these types of tasks have been found to capture choices that are similar to real-world choices and offer greater safety because participants are not exposed to potentially unsafe or ineffective contingencies [@RN705]. Second, the methods used here evaluated choice using a relatively limited array of treatment options (i.e., one EBP, one AT). As such, future efforts will need to expand upon this methodology and refine the scope and range of therapies available to caregivers. Third, the vignettes included in this HTPT were designed to produce a context in which most caregivers consulted an individual qualified to interpret scientific evidence (i.e., child's pediatrician). Although this avenue is broadly relatable, caregivers regularly receive information regarding child behavior therapies from various sources (e.g., social media, neighborhoods; informational contingencies). As such, additional evaluation using methods and concepts derived from Consumer Behavior Analysis could be beneficial in further extending the breadth of contingencies that support these choices. Lastly, this study served as an initial evaluation of the operant demand framework with treatment-related decision-making. As such, further evaluation with broader and more representative sampling is necessary in future demonstrations (e.g., more tailored budgets, vignettes, available treatment options). Notwithstanding these limitations, this study represents a successful, initial application of the operant demand framework to how caregivers make treatment-related choices for their children.\
+Although the interpretation provided here is consistent with behavioral economic concepts and methods, it warrants noting that this study serves as a preliminary demonstration and several potential limitations must be discussed. First, the primary purpose of this demonstration was to determine whether cross-price analyses of demand could be adapted to evaluate the relationships between multiple treatment options. Whereas the current approach was sufficiently powered to answer questions related to the relationship between treatment options, this demonstration was not sufficiently powered to detect small, but potentially meaningful effects associated with covariates beyond Price. Although the single-stage analysis performed here is more powerful than traditional two-stage methods (Kaplan et al., 2021), larger and more powerful designs will be necessary when research questions focus on how factors beyond price influence consumption on these types of tasks (e.g., level of education, income). Second, the vignettes included in this HTPT were designed to produce a context in which most caregivers consulted an individual qualified to interpret scientific evidence (i.e., child’s pediatrician). Although this avenue is broadly relatable, caregivers regularly receive information regarding child behavior therapies from various sources (e.g., social media, neighborhoods; informational contingencies). As such, additional evaluation using methods and concepts derived from Consumer Behavior Analysis could be beneficial in further extending the breadth of contingencies that support these choices. Notwithstanding these limitations, this study represents a successful, preliminary application of the Operant Demand Framework to how caregivers make treatment-related choices for their children.\
 
 \newpage
 
@@ -876,4 +1107,6 @@ Although the interpretation provided here is consistent with behavioral economic
 ::: {#refs custom-style="Bibliography"}
 :::
 
+```{=tex}
 \endgroup
+```
