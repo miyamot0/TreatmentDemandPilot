@@ -6,12 +6,12 @@ Various treatment approaches have been determined efficacious for improving chil
 
 ## Figure 1: Alone-Price Demand for Evidence-based Practices
 
-![Figure 1](Treatment_Demand_Pilot_files/figure-latex/rq1plot-1.png)
+![Figure 1](Figure 1 - Alone Price.png)
 
 ## Figure 2: Own-Price Demand for Evidence-based Practices
 
-![Figure 2](Treatment_Demand_Pilot_files/figure-latex/rq2plot-1.png)
+![Figure 2](Figure 2 - Own Price.png)
 
 ## Figure 3: Cross-Price Demand for Alternative Therapy
 
-![Figure 2](Treatment_Demand_Pilot_files/figure-latex/rq3plot-1.png)
+![Figure 2](Figure 3 - Cross Price.png)
