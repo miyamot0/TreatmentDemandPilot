@@ -26,7 +26,6 @@ skipThese <- c("R_10vBc6q1iYD6juF", "R_ZJKpsAPP9SYGJpL",
 
 mSurveyRes <- mSurveyRes %>%
   filter(!is.na(`Pure Demand Task_1(2)`)) %>%
-  #filter(!(ResponseID %in% skipThese )) %>%
   filter(Finished == 1)
 
 pureDemandFrame <- mSurveyRes %>%
@@ -125,8 +124,8 @@ Fval <- ((ss1 - ss2)/ss2)/((df1 - df2)/df2)
 pval <- 1 - pf(Fval, (df1 - df2), df2)
 critF <- qf(c(0.025, 0.975), (df1 - df2), df2)
 
-print("Null hypothesis: No Specific Span Parameter Necessary (Q0 == K)")
-print("Alternative hypothesis: K is DIFFERENT from overall span")
+print("Null hypothesis: No Span Parameter Necessary")
+print("Alternative hypothesis: Span is necessary")
 print(paste0("Conclusion: ", if (pval < .05) "reject" else "fail to reject", " the null hypothesis"))
 print(paste0("F(", (df1 - df2), ",", df2, ") = ", round(Fval, 4), ", p = ", round(pval, 4)))
 
@@ -187,6 +186,7 @@ withRE <- nlme(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/lo
                                        alpha = rep(0.001, 5),
                                        k = 1)),
                groups = ~ ResponseID,
+               method = "ML",
                weights = varPower(),
                control = nlmeControl(msMaxIter = 1000,
                                      maxIter = 1000,
@@ -211,6 +211,7 @@ withRE.full <- nlme(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.
                                        alpha = rep(0.001, 5),
                                        k = 1)),
                groups = ~ ResponseID,
+               method = "ML",
                weights = varPower(),
                control = nlmeControl(msMaxIter = 1000,
                                      maxIter = 1000,

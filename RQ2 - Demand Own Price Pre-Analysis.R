@@ -26,7 +26,6 @@ skipThese <- c("R_10vBc6q1iYD6juF", "R_ZJKpsAPP9SYGJpL",
 
 mSurveyRes <- mSurveyRes %>%
   filter(!is.na(`Pure Demand Task_1(2)`)) %>%
-  #filter(!(ResponseID %in% skipThese )) %>%
   filter(Finished == 1)
 
 crossPriceABA <- mSurveyRes %>%
@@ -73,7 +72,7 @@ crossPriceABA.long.all <- crossPriceABA %>%
 crossPriceABA.long.clean = crossPriceABA.long.all %>%
   filter(!(ResponseID %in% skipThese ))
 
-crossPriceDemandGroupFrame <- crossPriceABA.long %>%
+crossPriceDemandGroupFrame <- crossPriceABA.long.clean %>%
   group_by(Price) %>%
   summarise(
     ConsumptionAve = mean(Consumption),
@@ -126,8 +125,8 @@ Fval <- ((ss1 - ss2)/ss2)/((df1 - df2)/df2)
 pval <- 1 - pf(Fval, (df1 - df2), df2)
 critF <- qf(c(0.025, 0.975), (df1 - df2), df2)
 
-print("Null hypothesis: No Specific Span Parameter Necessary (Q0 == K)")
-print("Alternative hypothesis: K is DIFFERENT from overall span")
+print("Null hypothesis: No Span Necessary")
+print("Alternative hypothesis: Need a rate parameter and span")
 print(paste0("Conclusion: ", if (pval < .05) "reject" else "fail to reject", " the null hypothesis"))
 print(paste0("F(", (df1 - df2), ",", df2, ") = ", round(Fval, 4), ", p = ", round(pval, 4)))
 
@@ -162,12 +161,12 @@ noRE <- gnls(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(
             data = crossPriceABA.long.clean,
             na.action = na.omit,
             params = list(q0 + alpha ~ Education + Sex + FamilySize, k ~ 1),
-            start = list( fixed = c(q0 = rep(12, 5),
+            start = list( fixed = c(q0 = c(12, 1, 1, 1, 1),
                                     alpha = rep(0.001, 5),
                                     k = 1)),
             weights = varPower(),
-            control = gnlsControl(msMaxIter = 200,
-                                  maxIter = 300,
+            control = gnlsControl(msMaxIter = 1000,
+                                  maxIter = 1000,
                                   tolerance = 1,
                                   nlsTol = 1,
                                   apVar = F,
@@ -175,26 +174,22 @@ noRE <- gnls(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(
 
 withRE <- nlme(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
                  log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
-                 k *
-                 (exp(-alpha * q0 * Price) - 1),
+                 k *(exp(-alpha * q0 * Price) - 1),
                data = crossPriceABA.long.clean,
                na.action = na.omit,
                fixed = list(q0 + alpha ~ Education + Sex + FamilySize,
                             k ~ 1),
                random = list(pdDiag(q0 + alpha ~ 1)),
-               start = list( fixed = c(q0 = q0 = c(10, 1, 1, 1, 1),
-                                       alpha = rep(0.001, 5),
-                                       k = 1)),
+               start = coef(noRE),
                groups = ~ ResponseID,
-               weights = varPower(),
                control = nlmeControl(msMaxIter = 1000,
                                      maxIter = 1000,
-                                     tolerance = .01,
-                                     nlsTol = .01,
+                                     tolerance = 1,
+                                     nlsTol = 1,
                                      apVar = F,
                                      returnObject = TRUE))
 
-# RE's totally worth the df
+# RE's worth the df
 anova(noRE, withRE)
 
 withRE.full <- nlme(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
@@ -206,117 +201,62 @@ withRE.full <- nlme(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.
                     fixed = list(q0 + alpha ~ Education + Sex + FamilySize,
                                  k ~ 1),
                     random = list(pdDiag(q0 + alpha ~ 1)),
-                    start = list( fixed = c(q0 = c(10, 1, 1, 1, 1),
-                                            alpha = rep(0.0001, 5),
-                                            k = 1)),
+                    start = fixed.effects(withRE),
                     groups = ~ ResponseID,
                     weights = varPower(),
                     control = nlmeControl(msMaxIter = 1000,
                                           maxIter = 1000,
-                                          tolerance = .001,
-                                          nlsTol = .001,
+                                          tolerance = 1,
+                                          nlsTol = 1,
                                           apVar = F,
                                           returnObject = TRUE))
 
-# estimates nearly identical
+# very little overall difference in interpretation, go full
 summary(withRE, correlations = FALSE)
 summary(withRE.full, correlations = FALSE)
 
+pmaxFrame = crossPriceABA.long %>%
+  select(Price, Consumption)
 
+zbeFit.full.closed.Full <- nlmrt::wrapnls(
+  formula = log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
+    log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
+    k *
+    (exp(-alpha * q0 * Price) - 1),
+  start   = list(q0    = 15,
+                 k     = 1,
+                 alpha = 0.01),
+  data    = pmaxFrame)
 
+ps <- seq(0.1, 5000, length.out = 10000)
 
+q0     <- as.numeric(coef(zbeFit.full.closed.Full)[1])
+alpha  <- as.numeric(coef(zbeFit.full.closed.Full)[3])
+k      <- as.numeric(coef(zbeFit.full.closed.Full)[2])
 
+dataProj <- data.frame(
+  Prices      = ps,
+  Projections = NA,
+  Work        = NA
+)
 
+dataProj$Projections <- log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
+  k *
+  (exp(-alpha * q0 * dataProj$Prices) - 1)
 
+# calculate lower limit
+llower = tn$inverse(tn$transform(q0) - k)
 
+# clip at lower limit, prevent tail resulting from llower
+dataProj$Projections = tn$inverse(dataProj$Projections) - llower
 
+dataProj$Work <- dataProj$Prices * dataProj$Projections
 
-crossPriceABA.long$FamilySize = as.factor(crossPriceABA.long$FamilySize)
-crossPriceABA.long$Sex = as.factor(crossPriceABA.long$Sex)
+dataProj[which.max(dataProj$Work),]
 
-out2 <- nlme(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
-               log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
-               k *
-               (exp(-alpha * q0 * Price) - 1),
-             data = crossPriceABA.long,
-             na.action = na.omit,
-             fixed = list(q0 + alpha ~ Education + Sex + FamilySize,
-                          k ~ 1),
-             random = list(pdDiag(q0 + alpha ~ 1)),
-             start = list( fixed = c(q0 = rep(12, 5),
-                                     alpha = rep(0.001, 5),
-                                     k = 1)),
-             groups = ~ ResponseID,
-             weights = varPower(),
-             control = nlmeControl(msMaxIter = 1000,
-                                   maxIter = 1000,
-                                   tolerance = 1,
-                                   nlsTol = 1,
-                                   apVar = F,
-                                   #minScale = .0001,
-                                   returnObject = TRUE))
+#Prices    Projections  Work
+#590.6472  2.523025     1490.218
 
-anova(out, out2)
-
-nameCoef = rownames(coef(summary(out2)))
-
-coef(summary(out2)) %>%
-  tidy() %>%
-  mutate(parameter = nameCoef) %>%
-  write.csv(file = "Results Q2.csv")
-
-crossPriceABA.long$pred  <- tn$inverse(predict(out2, level = 0))
-crossPriceABA.long$predi <- tn$inverse(predict(out2, level = 1))
-
-crossPriceABA.long = crossPriceABA.long %>%
-  rename(`Family Size` = FamilySize) %>%
-  rename(`Gender` = Sex)
-
-plot <- ggplot(crossPriceABA.long, aes(Price, pred,
-                                       lty = `Family Size`)) +
-  geom_line(size = 1) +
-  geom_line(mapping = aes(Price, predi,
-                          lty = `Family Size`,
-                          group = ResponseID),
-            size  = 0.8,
-            alpha = 0.25) +
-  scale_x_continuous(breaks = c(50, 100, 500, 1000, 5000),
-                     labels = c(50, 100, 500, 1000, 5000),
-                     limits = c(50, 5000),
-                     trans = tn) +
-  scale_y_continuous(breaks = c(0, 1, 5, 10, 20),
-                     labels = c(0, 1, 5, 10, 20),
-                     limits = c(-1, 25),
-                     trans = tn) +
-  theme_bw() +
-  scale_color_grey() +
-  xlab("Price/Hour of Treatment") +
-  ylab("Treatment Consumption (Hours)") +
-  theme(legend.position  = "bottom",
-        strip.background = element_blank(),
-        strip.text       = element_text(colour = 'black',
-                                        face   = 'bold'),
-        text             = element_text(family = "Times New Roman",
-                                        size   = 10),
-        panel.spacing    = unit(1.25, "lines"),
-        axis.title.y     = element_text(margin = margin(t = 0,
-                                                        r = 2,
-                                                        b = 0,
-                                                        l = 0)),
-        axis.title.x     = element_text(margin = margin(t = 10,
-                                                        r = 0,
-                                                        b = 0,
-                                                        l = 0))) +
-  facet_wrap(Gender ~ Education,
-             ncol = 3,
-             scales = "free") +
-  beezdemand::theme_apa()
-
-ggsave("Figure 2 - Own Price.png",
-       plot = plot,
-       units = "in",
-       height = 5,
-       width = 9,
-       device = "png",
-       dpi = 300)
-
+plot(dataProj$Prices, dataProj$Work,
+     log = 'x',
+     main = 'projected expenditure')

@@ -131,25 +131,6 @@ crossPriceABA.long <- crossPriceABA.long %>%
                      levels = c("No College", "<= 2 Yr College", ">= 4 Yr College" ))) %>%
   mutate(FamilySize = ifelse(numChildren > 1, "Multiple", "Single"))
 
-out <- gnls(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
-              log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
-              k *
-              (exp(-alpha * q0 * Price) - 1),
-            data = crossPriceABA.long,
-            na.action = na.omit,
-            params = list(q0 + alpha ~ Education + Sex + FamilySize, k ~ 1),
-            start = list( fixed = c(q0 = rep(12, 5),
-                                    alpha = rep(0.001, 5),
-                                    k = 1)),
-            weights = varPower(),
-            control = gnlsControl(msMaxIter = 200,
-                                  maxIter = 300,
-                                  tolerance = 1,
-                                  nlsTol = 1,
-                                  apVar = F,
-                                  returnObject = TRUE,
-                                  opt = "optim"))
-
 crossPriceABA.long$FamilySize = as.factor(crossPriceABA.long$FamilySize)
 crossPriceABA.long$Sex = as.factor(crossPriceABA.long$Sex)
 
@@ -162,9 +143,17 @@ out2 <- nlme(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(
              fixed = list(q0 + alpha ~ Education + Sex + FamilySize,
                           k ~ 1),
              random = list(pdDiag(q0 + alpha ~ 1)),
-             start = list( fixed = c(q0 = rep(12, 5),
-                                     alpha = rep(0.001, 5),
-                                     k = 1)),
+             start = list( fixed = c(q0 = c(9.606437e+00,
+                                            7.000227e+00,
+                                            4.161417e+00,
+                                            2.113099e+00,
+                                            3.312925e+00),
+                                     alpha = c(3.375973e-05,
+                                               9.473063e-05,
+                                               1.039070e-04,
+                                               4.215217e-05,
+                                               2.354979e-05),
+                                     k = 1.291023e+00)),
              groups = ~ ResponseID,
              weights = varPower(),
              control = nlmeControl(msMaxIter = 1000,
@@ -172,10 +161,7 @@ out2 <- nlme(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(
                                    tolerance = 1,
                                    nlsTol = 1,
                                    apVar = F,
-                                   #minScale = .0001,
                                    returnObject = TRUE))
-
-anova(out, out2)
 
 crossPriceABA.long$pred  <- tn$inverse(predict(out2, level = 0))
 crossPriceABA.long$predi <- tn$inverse(predict(out2, level = 1))

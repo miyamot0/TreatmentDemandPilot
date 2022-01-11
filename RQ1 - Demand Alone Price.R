@@ -89,26 +89,6 @@ pureDemandFrame.long <- pureDemandFrame.long %>%
          FamilySize = factor(FamilySize)) %>%
   arrange(ResponseID, Price)
 
-out <- gnls(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
-                  log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
-                  k *
-                  (exp(-alpha * q0 * Price) - 1),
-                  data = pureDemandFrame.long,
-                  na.action = na.omit,
-                  params = list(q0 + alpha ~ Education + Sex + FamilySize, k ~ 1),
-                  start = list( fixed = c(q0 = rep(15, 5),
-                                          alpha = rep(0.001, 5),
-                                          k = 1)),
-
-                  weights = varPower(),
-                  control = gnlsControl(msMaxIter = 200,
-                                        maxIter = 300,
-                                        tolerance = 1,
-                                        nlsTol = 1,
-                                        apVar = F,
-                                        #minScale = .0001,
-                                        returnObject = TRUE))
-
 out2 <- nlme(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(10) ~
              log((q0 * 0.5) + ((0.5^2) * (q0^2) + 1)^0.5)/log(10) +
              k *
@@ -119,19 +99,14 @@ out2 <- nlme(log((Consumption * 0.5) + ((0.5^2) * (Consumption^2) + 1)^0.5)/log(
                         k ~ 1),
            random = list(pdDiag(q0 + alpha ~ 1)),
            start = list( fixed = c(q0 = rep(12, 5),
-                                   alpha = rep(0.001, 5),
+                                   alpha = rep(0.00001, 5),
                                    k = 1)),
            groups = ~ ResponseID,
            weights = varPower(),
            control = nlmeControl(msMaxIter = 1000,
-                                 maxIter = 1000,
-                                 tolerance = 1,
-                                 nlsTol = 1,
-                                 apVar = F,
-                                 #minScale = .0001,
-                                 returnObject = TRUE))
+                                 maxIter = 1000))
 
-anova(out, out2)
+summary(out2)
 
 pureDemandFrame.long$pred  <- tn$inverse(predict(out2, level = 0))
 pureDemandFrame.long$predi <- tn$inverse(predict(out2, level = 1))
